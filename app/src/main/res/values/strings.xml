@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Taxi</string>
     <string name="new_journey_title">New Journey</string>
+    <string name="tab_start_text">START</string>
+    <string name="tab_end_text">END</string>
+    <string name="tab_info_text">INFO</string>
 </resources>

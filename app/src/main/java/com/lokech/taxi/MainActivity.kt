@@ -15,7 +15,10 @@ import com.lokech.taxi.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
+
+    // appBarConfiguration contains top level destinations
     private lateinit var appBarConfiguration: AppBarConfiguration
+
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val binding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
+        setSupportActionBar(binding.toolbar)
         drawerLayout = binding.drawerLayout
         appBarConfiguration = AppBarConfiguration(setOf(R.id.newJourneyFragment), drawerLayout)
         navController = findNavController(R.id.myNavHostFragment)
@@ -42,7 +46,6 @@ class MainActivity : AppCompatActivity() {
 
     // Have NavigationUI decide what label to show in the action bar
     // It will also determine whether to show up arrow or drawer menu icon
-    // appBarConfiguration contains top level destinations
     private fun setupActionBar() =
         setupActionBarWithNavController(navController, appBarConfiguration)
 
