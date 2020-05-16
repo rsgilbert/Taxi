@@ -19,11 +19,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import org.jetbrains.anko.support.v4.longToast
-import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 
 
 open class MapFragment : Fragment(), OnMapReadyCallback {
+    var map: GoogleMap? = null
+    private var mIsRestore = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,72 +35,22 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         val view = inflater.inflate(getLayout(), container, false)
         mIsRestore = savedInstanceState != null
         setupMap()
-        setupFusedLocationProviderClient()
         return view
 
     }
 
-    open fun getLayout() = R.layout.fragment_map
-
-    fun getMap() = map
-
     override fun onMapReady(googleMap: GoogleMap?) {
-        toast("OnMapReady called")
         map = googleMap
         map?.let {
             if (isLocationPermissionEnabled()) {
                 it.isMyLocationEnabled = true
                 it.uiSettings.isMyLocationButtonEnabled = true
-                getDeviceLocation()
+                moveCameraToCurrentLocation()
             } else {
                 requestLocationPermissions()
             }
         }
     }
-
-    fun isLocationPermissionEnabled() =
-        ContextCompat.checkSelfPermission(
-            context!!, Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-
-    fun setupFusedLocationProviderClient() {
-        mFusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireActivity())
-    }
-
-    open fun getDeviceLocation() {
-        try {
-            if (isLocationPermissionEnabled()) {
-                val locationResult: Task<Location> =
-                    mFusedLocationProviderClient.lastLocation
-                locationResult.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Set the map's camera position to the current location of the device.
-                        val location: Location? = task.result
-                        location?.let {
-                            val currentLatLng = LatLng(
-                                it.latitude, it.longitude
-                            )
-                            val update = CameraUpdateFactory.newLatLngZoom(
-                                currentLatLng, zoom
-                            )
-                            getMap()?.moveCamera(update)
-                        }
-
-                    }
-                }
-            }
-        } catch (e: SecurityException) {
-            Timber.e("Exception: %s", e.message)
-        }
-    }
-
-    private fun requestLocationPermissions() =
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            LOCATION_REQUEST_CODE
-        )
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -116,16 +68,57 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    open fun setupMap() {
-        toast("Setting up map")
-        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!.getMapAsync(this)
-    }
+    open fun getLayout() = R.layout.fragment_map
+}
 
-    companion object {
-        private var map: GoogleMap? = null
-        private var mIsRestore = false
-        private const val LOCATION_REQUEST_CODE = 101
-        private const val zoom = 14f
-        private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+fun MapFragment.getFusedLocationProviderClient(): FusedLocationProviderClient =
+    LocationServices.getFusedLocationProviderClient(requireActivity())
+
+fun MapFragment.getMap() = map
+
+fun MapFragment.moveCameraToCurrentLocation() {
+    try {
+        if (isLocationPermissionEnabled()) {
+            val locationResult: Task<Location> =
+                getFusedLocationProviderClient().lastLocation
+            locationResult.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Set the map's camera position to the current location of the device.
+                    val location: Location? = task.result
+                    location?.let {
+                        val currentLatLng = LatLng(
+                            it.latitude, it.longitude
+                        )
+                        val update = CameraUpdateFactory.newLatLngZoom(
+                            currentLatLng, zoom
+                        )
+                        getMap()?.animateCamera(update)
+                    }
+                }
+            }
+        }
+    } catch (e: SecurityException) {
+        Timber.e("Exception: %s", e.message)
     }
 }
+
+
+fun MapFragment.setupMap() =
+    (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!.getMapAsync(this)
+
+fun MapFragment.isLocationPermissionEnabled() =
+    ContextCompat.checkSelfPermission(
+        context!!, Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
+
+private fun MapFragment.requestLocationPermissions() =
+    ActivityCompat.requestPermissions(
+        requireActivity(),
+        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+        LOCATION_REQUEST_CODE
+    )
+
+// Constants
+const val zoom = 20f
+const val LOCATION_REQUEST_CODE = 101
+
