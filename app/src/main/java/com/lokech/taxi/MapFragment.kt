@@ -17,9 +17,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
+import com.google.android.libraries.places.api.Places
 import org.jetbrains.anko.support.v4.longToast
 import timber.log.Timber
+import java.util.*
 
 
 open class MapFragment : Fragment(), OnMapReadyCallback {
@@ -35,6 +38,7 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         val view = inflater.inflate(getLayout(), container, false)
         mIsRestore = savedInstanceState != null
         setupMap()
+        initializePlaces()
         return view
 
     }
@@ -70,6 +74,39 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
 
     open fun getLayout() = R.layout.fragment_map
 }
+
+fun MapFragment.initializePlaces() {
+    Places.initialize(context!!, getString(R.string.google_maps_key), Locale.US)
+}
+
+
+//private fun showPolygon(isRestore: Boolean) {
+//    toast("Show Polygon")
+//    val decodedPath =
+//        PolyUtil.decode(LINE)
+//
+//    map?.addPolyline(PolylineOptions().addAll(decodedPath))
+//
+//
+//}
+
+fun MapFragment.setCamera(latLng: LatLng) {
+    getMap()!!.animateCamera(
+        CameraUpdateFactory.newLatLngZoom(
+            latLng,
+            zoom
+        )
+    )
+}
+
+fun MapFragment.setMarker(latLng: LatLng) {
+    getMap()!!.addMarker(
+        MarkerOptions().position(
+            latLng
+        ).draggable(true)
+    )
+}
+
 
 fun MapFragment.getFusedLocationProviderClient(): FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(requireActivity())
