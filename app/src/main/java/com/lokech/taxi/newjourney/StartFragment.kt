@@ -1,7 +1,11 @@
 package com.lokech.taxi.newjourney
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.viewModels
+import br.com.mauker.materialsearchview.MaterialSearchView
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -17,8 +21,15 @@ open class StartFragment : MapFragment() {
         { requireParentFragment() }
     )
 
+
+    lateinit var searchView: MaterialSearchView
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+
+        searchView = activity!!.findViewById(R.id.search_view)
+
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
 
@@ -38,8 +49,20 @@ open class StartFragment : MapFragment() {
                 }
             })
         }
+
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_new_journey, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_search -> searchView.openSearch()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
     override fun getLayout() = R.layout.fragment_start
 }
 

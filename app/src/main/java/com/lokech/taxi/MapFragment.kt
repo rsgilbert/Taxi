@@ -39,6 +39,7 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
         mIsRestore = savedInstanceState != null
         setupMap()
         initializePlaces()
+        moreOnCreateView(view)
         return view
 
     }
@@ -46,7 +47,7 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         map = googleMap
         map?.let {
-            if (isLocationPermissionEnabled()) {
+            if (isLocationPermissionsEnabled()) {
                 it.isMyLocationEnabled = true
                 it.uiSettings.isMyLocationButtonEnabled = true
                 moveCameraToCurrentLocation()
@@ -73,6 +74,8 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     open fun getLayout() = R.layout.fragment_map
+
+    open fun moreOnCreateView(view: View) {}
 }
 
 fun MapFragment.initializePlaces() {
@@ -91,7 +94,7 @@ fun MapFragment.initializePlaces() {
 //}
 
 fun MapFragment.setCamera(latLng: LatLng) {
-    getMap()!!.animateCamera(
+    getMap()?.animateCamera(
         CameraUpdateFactory.newLatLngZoom(
             latLng,
             zoom
@@ -100,7 +103,7 @@ fun MapFragment.setCamera(latLng: LatLng) {
 }
 
 fun MapFragment.setMarker(latLng: LatLng) {
-    getMap()!!.addMarker(
+    getMap()?.addMarker(
         MarkerOptions().position(
             latLng
         ).draggable(true)
@@ -115,7 +118,7 @@ fun MapFragment.getMap() = map
 
 fun MapFragment.moveCameraToCurrentLocation() {
     try {
-        if (isLocationPermissionEnabled()) {
+        if (isLocationPermissionsEnabled()) {
             val locationResult: Task<Location> =
                 getFusedLocationProviderClient().lastLocation
             locationResult.addOnCompleteListener { task ->
@@ -143,12 +146,12 @@ fun MapFragment.moveCameraToCurrentLocation() {
 fun MapFragment.setupMap() =
     (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!.getMapAsync(this)
 
-fun MapFragment.isLocationPermissionEnabled() =
+fun MapFragment.isLocationPermissionsEnabled() =
     ContextCompat.checkSelfPermission(
         context!!, Manifest.permission.ACCESS_FINE_LOCATION
     ) == PackageManager.PERMISSION_GRANTED
 
-private fun MapFragment.requestLocationPermissions() =
+fun MapFragment.requestLocationPermissions() =
     ActivityCompat.requestPermissions(
         requireActivity(),
         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),

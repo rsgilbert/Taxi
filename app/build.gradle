@@ -111,4 +111,10 @@ dependencies {
 
     // Google Maps Utility library
     implementation 'com.google.maps.android:android-maps-utils:0.5'
+
+    // mancj materialsearchbar
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+
+    // mauker searchview
+    implementation 'br.com.mauker.materialsearchview:materialsearchview:1.2.3'
 }

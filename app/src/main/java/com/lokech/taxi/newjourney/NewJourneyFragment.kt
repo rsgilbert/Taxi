@@ -23,8 +23,7 @@ class NewJourneyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = DataBindingUtil.inflate<FragmentNewJourneyBinding>(
-            inflater,
-            R.layout.fragment_new_journey, container, false
+            inflater, R.layout.fragment_new_journey, container, false
         )
 
         binding.pager.adapter = ViewPagerAdapter(this)
@@ -32,14 +31,17 @@ class NewJourneyFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.pager, tabConfiguration).attach()
 
         return binding.root
+
     }
 
-    private val tabConfiguration =
-        TabLayoutMediator.OnConfigureTabCallback { tab, position ->
-            when (position) {
-                0 -> tab.text = getString(R.string.tab_start_text)
-                1 -> tab.text = getString(R.string.tab_end_text)
-                else -> tab.text = getString(R.string.tab_info_text)
-            }
-        }
+
 }
+
+private val NewJourneyFragment.tabConfiguration: TabLayoutMediator.OnConfigureTabCallback
+    get() = TabLayoutMediator.OnConfigureTabCallback { tab, position ->
+        when (position) {
+            0 -> tab.text = getString(R.string.tab_start_text)
+            1 -> tab.text = getString(R.string.tab_end_text)
+            else -> tab.text = getString(R.string.tab_info_text)
+        }
+    }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mancj.materialsearchbar.MaterialSearchBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchBar"
+    style="@style/MaterialSearchBarLight"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:padding="4dp"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    app:mt_clearIconTint="@android:color/white"
+    app:mt_hint="Search location"
+    app:mt_hintColor="@android:color/white"
+    app:mt_maxSuggestionsCount="10"
+    app:mt_navIconEnabled="true"
+    app:mt_navIconTint="@android:color/white"
+    app:mt_placeholder="@string/new_journey_title"
+    app:mt_placeholderColor="@android:color/white"
+    app:mt_searchBarColor="@color/colorPrimary"
+    app:mt_searchIconTint="@android:color/white" />
+

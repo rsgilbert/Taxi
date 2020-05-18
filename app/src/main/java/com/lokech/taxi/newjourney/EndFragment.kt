@@ -17,8 +17,14 @@ class EndFragment : MapFragment() {
         { requireParentFragment() }
     )
 
+//    lateinit var searchBar: MaterialSearchBar
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
+//        searchBar = requireParentFragment().view!!.findViewById(R.id.searchBar)
+//        toast("Searchbar is $searchBar")
+
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
 

@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import br.com.mauker.materialsearchview.MaterialSearchView
 import com.google.android.material.navigation.NavigationView
 import com.lokech.taxi.databinding.ActivityMainBinding
 
@@ -17,9 +18,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
 
     // appBarConfiguration contains top level destinations
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    lateinit var appBarConfiguration: AppBarConfiguration
 
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
+
+    lateinit var searchView: MaterialSearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,22 +34,31 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(setOf(R.id.newJourneyFragment), drawerLayout)
         navController = findNavController(R.id.myNavHostFragment)
 
+        searchView = binding.searchView
+
+
         setupActionBar()
         connectDrawerToController(binding.navView)
     }
 
-    // connect navigation drawer to navigation controller
-    private fun connectDrawerToController(navView: NavigationView) =
-        NavigationUI.setupWithNavController(navView, navController)
+    override fun onBackPressed() =
+        if (searchView.isOpen)
+            searchView.closeSearch()
+        else
+            super.onBackPressed()
 
     // Allow navigation to previous fragments using up arrow in actionbar
     // AppbarConfiguration provides top level destinations
     override fun onSupportNavigateUp() =
         navController.navigateUp(appBarConfiguration)
 
-    // Have NavigationUI decide what label to show in the action bar
-    // It will also determine whether to show up arrow or drawer menu icon
-    private fun setupActionBar() =
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
 }
+
+// Have NavigationUI decide what label to show in the action bar
+// It will also determine whether to show up arrow or drawer menu icon
+private fun MainActivity.setupActionBar() =
+    setupActionBarWithNavController(navController, appBarConfiguration)
+
+// connect navigation drawer to navigation controller
+private fun MainActivity.connectDrawerToController(navView: NavigationView) =
+    NavigationUI.setupWithNavController(navView, navController)
