@@ -1,4 +1,4 @@
-package com.lokech.taxi
+package br.com.mauker
 
 
 object MsvAuthority {

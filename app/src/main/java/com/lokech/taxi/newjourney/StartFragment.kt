@@ -21,7 +21,6 @@ open class StartFragment : MapFragment() {
         { requireParentFragment() }
     )
 
-
     lateinit var searchView: MaterialSearchView
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -29,6 +28,18 @@ open class StartFragment : MapFragment() {
         setHasOptionsMenu(true)
 
         searchView = activity!!.findViewById(R.id.search_view)
+
+        searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchView.addSuggestion(newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.addSuggestion(query)
+                return false
+            }
+        })
 
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
