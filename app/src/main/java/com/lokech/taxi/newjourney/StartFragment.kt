@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import br.com.mauker.materialsearchview.MaterialSearchView
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
@@ -14,12 +15,13 @@ import com.lokech.taxi.MapFragment
 import com.lokech.taxi.R
 import com.lokech.taxi.setCamera
 import com.lokech.taxi.setMarker
+import com.lokech.taxi.util.getRepository
 import timber.log.Timber
 
 open class StartFragment : MapFragment() {
-    val newJourneyViewModel: NewJourneyViewModel by viewModels(
-        { requireParentFragment() }
-    )
+    val startFragmentViewModel: StartFragmentViewModel by viewModels {
+        StartFragmentViewModelFactory(getRepository())
+    }
 
     lateinit var searchView: MaterialSearchView
 
@@ -29,14 +31,18 @@ open class StartFragment : MapFragment() {
 
         searchView = activity!!.findViewById(R.id.search_view)
 
+        startFragmentViewModel.suggestions.observe(this) {
+            it?.let { searchView.addSuggestions(it) }
+        }
+
         searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String?): Boolean {
-                searchView.addSuggestion(newText)
+            override fun onQueryTextChange(query: String?): Boolean {
+                searchPlaces(query)
                 return false
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchView.addSuggestion(query)
+                searchPlaces(query)
                 return false
             }
         })
@@ -60,7 +66,6 @@ open class StartFragment : MapFragment() {
                 }
             })
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -74,7 +79,12 @@ open class StartFragment : MapFragment() {
         }
         return true
     }
+
     override fun getLayout() = R.layout.fragment_start
+}
+
+fun StartFragment.searchPlaces(query: String?) {
+    if (!query.isNullOrBlank()) startFragmentViewModel.searchPlaces(query)
 }
 
 // constants

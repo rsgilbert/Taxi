@@ -20,3 +20,7 @@ fun Fragment.getRepository() = Repository(getDatabase(context!!).dao)
 
 val Context.googleMapsKey: String
     get() = getString(R.string.google_maps_key)
+
+//fun Fragment.observe() {
+//    import androidx.lifecycle.observe
+//}

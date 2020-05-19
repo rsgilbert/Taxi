@@ -33,8 +33,6 @@ class NewJourneyFragment : Fragment() {
         return binding.root
 
     }
-
-
 }
 
 private val NewJourneyFragment.tabConfiguration: TabLayoutMediator.OnConfigureTabCallback
