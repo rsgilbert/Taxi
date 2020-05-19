@@ -6,10 +6,7 @@ import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.lokech.taxi.MapFragment
-import com.lokech.taxi.R
-import com.lokech.taxi.setCamera
-import com.lokech.taxi.setMarker
+import com.lokech.taxi.*
 import timber.log.Timber
 
 class EndFragment : MapFragment() {

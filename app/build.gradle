@@ -96,7 +96,7 @@ dependencies {
     // viewpager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    // to have many methods in the app
+    // to have many imports in the app
     // multidex
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -111,4 +111,7 @@ dependencies {
 
     // mauker searchview
     implementation 'br.com.mauker.materialsearchview:materialsearchview:1.2.3'
+
+    // mancj materialsearchbar
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 }

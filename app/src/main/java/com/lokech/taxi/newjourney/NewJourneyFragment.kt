@@ -35,8 +35,8 @@ class NewJourneyFragment : Fragment() {
     }
 }
 
-private val NewJourneyFragment.tabConfiguration: TabLayoutMediator.OnConfigureTabCallback
-    get() = TabLayoutMediator.OnConfigureTabCallback { tab, position ->
+private val NewJourneyFragment.tabConfiguration: TabLayoutMediator.TabConfigurationStrategy
+    get() = TabLayoutMediator.TabConfigurationStrategy { tab, position ->
         when (position) {
             0 -> tab.text = getString(R.string.tab_start_text)
             1 -> tab.text = getString(R.string.tab_end_text)

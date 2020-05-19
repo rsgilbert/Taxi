@@ -20,7 +20,7 @@ buildscript {
         version_room = "2.1.0-alpha06"
         version_timber = "4.7.1"
         version_gson = "2.8.6"
-        version_material="1.1.0-alpha08"
+        version_material="1.2.0-alpha06"
         version_retrofit_gson = "2.6.2"
         version_anko = "0.10.8"
     }

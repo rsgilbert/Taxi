@@ -8,10 +8,22 @@
         android:layout_height="match_parent">
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/search_bar"
+                style="@style/MaterialSearchBarLight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp"
+                android:paddingBottom="32dp"
+                android:visibility="gone"
+                app:mt_hint="@string/search_hint"
+                app:mt_maxSuggestionsCount="10" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -38,10 +50,6 @@
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/drawer_menu" />
 
-        <br.com.mauker.materialsearchview.MaterialSearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

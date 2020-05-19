@@ -10,7 +10,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import br.com.mauker.materialsearchview.MaterialSearchView
 import com.google.android.material.navigation.NavigationView
 import com.lokech.taxi.databinding.ActivityMainBinding
 
@@ -22,7 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
 
-    lateinit var searchView: MaterialSearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +32,16 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(setOf(R.id.newJourneyFragment), drawerLayout)
         navController = findNavController(R.id.myNavHostFragment)
 
-        searchView = binding.searchView
-
 
         setupActionBar()
         connectDrawerToController(binding.navView)
     }
 
-    override fun onBackPressed() =
-        if (searchView.isOpen)
-            searchView.closeSearch()
-        else
-            super.onBackPressed()
+//    override fun onBackPressed() =
+//        if (searchView.isOpen)
+//            searchView.closeSearch()
+//        else
+//            super.onBackPressed()
 
     // Allow navigation to previous fragments using up arrow in actionbar
     // AppbarConfiguration provides top level destinations

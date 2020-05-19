@@ -1,51 +1,38 @@
 package com.lokech.taxi.newjourney
 
+import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import br.com.mauker.materialsearchview.MaterialSearchView
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.lokech.taxi.MapFragment
-import com.lokech.taxi.R
-import com.lokech.taxi.setCamera
-import com.lokech.taxi.setMarker
+import com.lokech.taxi.*
 import com.lokech.taxi.util.getRepository
+import com.mancj.materialsearchbar.MaterialSearchBar
+import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 
-open class StartFragment : MapFragment() {
+
+open class StartFragment : MapFragment(), MaterialSearchBar.OnSearchActionListener, TextWatcher {
     val startFragmentViewModel: StartFragmentViewModel by viewModels {
         StartFragmentViewModelFactory(getRepository())
     }
 
-    lateinit var searchView: MaterialSearchView
+    lateinit var searchBar: MaterialSearchBar
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
-
-        searchView = activity!!.findViewById(R.id.search_view)
+        initializeSearchBar()
 
         startFragmentViewModel.suggestions.observe(this) {
-            it?.let { searchView.addSuggestions(it) }
+            searchBar.updateLastSuggestions(it)
         }
-
-        searchView.setOnQueryTextListener(object : MaterialSearchView.OnQueryTextListener {
-            override fun onQueryTextChange(query: String?): Boolean {
-                searchPlaces(query)
-                return false
-            }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                searchPlaces(query)
-                return false
-            }
-        })
 
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
@@ -74,18 +61,61 @@ open class StartFragment : MapFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_search -> searchView.openSearch()
+            R.id.menu_search -> openSearchBar()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
     }
 
     override fun getLayout() = R.layout.fragment_start
+
+    override fun onButtonClicked(buttonCode: Int) {
+        when (buttonCode) {
+            MaterialSearchBar.BUTTON_BACK -> hideSearchBar()
+        }
+    }
+
+    override fun onSearchStateChanged(enabled: Boolean) {}
+
+    override fun onSearchConfirmed(text: CharSequence?) {
+        toast("Confirmed")
+    }
+
+    override fun afterTextChanged(s: Editable?) {}
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        searchPlaces(s)
+
+    }
 }
 
-fun StartFragment.searchPlaces(query: String?) {
-    if (!query.isNullOrBlank()) startFragmentViewModel.searchPlaces(query)
+
+fun StartFragment.hideSearchBar() {
+    searchBar.visibility = View.GONE
 }
 
-// constants
-const val UG_CODE = "UG"
+fun StartFragment.openSearchBar() {
+    searchBar.apply {
+        visibility = View.VISIBLE
+        openSearch()
+    }
+}
+
+fun StartFragment.initializeSearchBar() {
+    searchBar = requireActivity().findViewById(R.id.search_bar)
+    searchBar.setOnSearchActionListener(this)
+    searchBar.addTextChangeListener(this)
+    val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    val placeSuggestionsAdapter = PlaceSuggestionsAdapter(inflater)
+    searchBar.apply {
+        setCustomSuggestionAdapter(placeSuggestionsAdapter)
+        setCardViewElevation(20)
+    }
+}
+
+fun StartFragment.searchPlaces(query: CharSequence?) {
+    if (!query.isNullOrBlank()) startFragmentViewModel.searchPlaces(query.toString())
+}
+
