@@ -9,7 +9,10 @@ import com.lokech.taxi.databinding.PlaceSuggestionItemBinding
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 
 
-class PlaceSuggestionsAdapter(inflater: LayoutInflater?) :
+class PlaceSuggestionsAdapter(
+    inflater: LayoutInflater?,
+    private val clickListener: OnClickListener
+) :
     SuggestionsAdapter<Place, PlaceSuggestionsAdapter.ViewHolder>(inflater) {
     override fun getSingleViewHeight(): Int {
         return 80
@@ -21,6 +24,7 @@ class PlaceSuggestionsAdapter(inflater: LayoutInflater?) :
         holder: ViewHolder,
         position: Int
     ) {
+        holder.itemView.setOnClickListener { clickListener.onClick(suggestion) }
         holder.bind(suggestion)
     }
 
@@ -42,5 +46,10 @@ class PlaceSuggestionsAdapter(inflater: LayoutInflater?) :
                 return ViewHolder(binding)
             }
         }
+    }
+
+    class OnClickListener(val clickListener: (place: Place) -> Unit) {
+        fun onClick(place: Place) = clickListener(place)
+
     }
 }

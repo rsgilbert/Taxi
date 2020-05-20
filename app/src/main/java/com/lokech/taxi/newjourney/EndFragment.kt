@@ -32,7 +32,7 @@ class EndFragment : MapFragment() {
                 override fun onPlaceSelected(place: Place) {
                     place.latLng?.let {
                         setCamera(it)
-                        setMarker(it)
+                        setOneMarker(it)
                     }
                 }
 

@@ -9,9 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.lokech.taxi.MapFragment
 import com.lokech.taxi.R
+import com.lokech.taxi.setCamera
+import com.lokech.taxi.setOneMarker
 import com.lokech.taxi.util.getRepository
 import com.mancj.materialsearchbar.MaterialSearchBar
-import org.jetbrains.anko.support.v4.toast
 
 open class StartFragment : MapFragment() {
     val startFragmentViewModel: StartFragmentViewModel by viewModels {
@@ -24,9 +25,8 @@ open class StartFragment : MapFragment() {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
         initializeSearchBar()
-        startFragmentViewModel.suggestions.observe(this) {
-            searchBar.updateLastSuggestions(it)
-        }
+        observeSuggestions()
+        observeLatLng()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -39,6 +39,21 @@ open class StartFragment : MapFragment() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+}
+
+fun StartFragment.observeLatLng() {
+    startFragmentViewModel.latLng.observe(this) {
+        it?.let { latLng ->
+            setCamera(latLng)
+            setOneMarker(latLng)
+        }
+    }
+}
+
+fun StartFragment.observeSuggestions() {
+    startFragmentViewModel.suggestions.observe(this) {
+        searchBar.updateLastSuggestions(it)
     }
 }
 
@@ -55,7 +70,7 @@ fun StartFragment.openSearchBar() {
 
 fun StartFragment.initializeSearchBar() {
     val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val placeSuggestionsAdapter = PlaceSuggestionsAdapter(inflater)
+    val placeSuggestionsAdapter = PlaceSuggestionsAdapter(inflater, suggestionClickListener)
     searchBar = requireActivity().findViewById(R.id.search_bar)
     searchBar.run {
         setOnSearchActionListener(searchActionListener)
@@ -71,22 +86,26 @@ fun StartFragment.searchPlaces(query: CharSequence?) {
 
 val StartFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
     get() = object : MaterialSearchBar.OnSearchActionListener {
-        override fun onButtonClicked(buttonCode: Int) {}
-
         override fun onSearchStateChanged(enabled: Boolean) {
             if (!enabled) hideSearchBar()
         }
 
-        override fun onSearchConfirmed(text: CharSequence?) {
-            toast("Confirmed")
-        }
+        override fun onButtonClicked(buttonCode: Int) {}
+        override fun onSearchConfirmed(text: CharSequence?) {}
     }
 
 val StartFragment.textWatcher: TextWatcher
     get() = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {}
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             searchPlaces(s)
         }
+
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    }
+
+val StartFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
+    get() = PlaceSuggestionsAdapter.OnClickListener { place ->
+        startFragmentViewModel.setLatLng(place)
+        hideSearchBar()
     }

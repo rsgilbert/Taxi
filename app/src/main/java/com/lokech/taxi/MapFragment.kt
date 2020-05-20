@@ -102,12 +102,15 @@ fun MapFragment.setCamera(latLng: LatLng) {
     )
 }
 
-fun MapFragment.setMarker(latLng: LatLng) {
-    getMap()?.addMarker(
-        MarkerOptions().position(
-            latLng
-        ).draggable(true)
-    )
+fun MapFragment.setOneMarker(latLng: LatLng) {
+    getMap()?.apply {
+        clear()
+        addMarker(
+            MarkerOptions().position(
+                latLng
+            ).draggable(true)
+        )
+    }
 }
 
 
@@ -129,10 +132,7 @@ fun MapFragment.moveCameraToCurrentLocation() {
                         val currentLatLng = LatLng(
                             it.latitude, it.longitude
                         )
-                        val update = CameraUpdateFactory.newLatLngZoom(
-                            currentLatLng, zoom
-                        )
-                        getMap()?.animateCamera(update)
+                        setCamera(currentLatLng)
                     }
                 }
             }
