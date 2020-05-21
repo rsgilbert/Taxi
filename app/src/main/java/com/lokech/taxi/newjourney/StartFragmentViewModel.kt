@@ -1,9 +1,7 @@
 package com.lokech.taxi.newjourney
 
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.Repository
 import com.lokech.taxi.data.Place
@@ -11,7 +9,11 @@ import kotlinx.coroutines.launch
 
 class StartFragmentViewModel(private val repository: Repository) : ViewModel() {
 
-    val suggestions = MutableLiveData<List<Place>>()
+    private val searchWord = MutableLiveData<String>()
+
+    val suggestions: LiveData<List<Place>> = searchWord.switchMap {
+        liveData<List<Place>> { repository.getPlaces(it) }
+    }
 
     val latLng = MutableLiveData<LatLng>()
 
@@ -20,9 +22,9 @@ class StartFragmentViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun searchPlaces(placeName: String) {
+        searchWord.value = placeName
         viewModelScope.launch {
-            val places: List<Place>? = repository.searchPlaces(placeName)
-            places?.let { suggestions.value = it }
+            repository.searchPlaces(placeName)
         }
     }
 }

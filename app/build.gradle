@@ -40,8 +40,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
@@ -98,8 +98,8 @@ dependencies {
 
     // to have many imports in the app
     // multidex
-    implementation 'androidx.multidex:multidex:2.0.1'
-
+//    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "androidx.multidex:multidex:$version_multidex"
     // Google Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
@@ -108,9 +108,6 @@ dependencies {
 
     // Google Maps Utility library
     implementation 'com.google.maps.android:android-maps-utils:0.5'
-
-    // mauker searchview
-    implementation 'br.com.mauker.materialsearchview:materialsearchview:1.2.3'
 
     // mancj materialsearchbar
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'

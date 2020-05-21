@@ -1,8 +1,11 @@
 package com.lokech.taxi.data
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity
 data class Place(
     @PrimaryKey
@@ -12,4 +15,4 @@ data class Place(
     val latitude: Double,
     val longitude: Double,
     val address: String
-)
+) : Parcelable

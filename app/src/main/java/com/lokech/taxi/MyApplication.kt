@@ -1,12 +1,12 @@
 package com.lokech.taxi
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MyApplication : Application() {
+class MyApplication : MultiDexApplication() {
 
     /**
      *  Coroutine scope for the application

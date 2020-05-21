@@ -13,6 +13,7 @@ import com.lokech.taxi.setCamera
 import com.lokech.taxi.setOneMarker
 import com.lokech.taxi.util.getRepository
 import com.mancj.materialsearchbar.MaterialSearchBar
+import org.jetbrains.anko.support.v4.toast
 
 open class StartFragment : MapFragment() {
     val startFragmentViewModel: StartFragmentViewModel by viewModels {
@@ -53,6 +54,7 @@ fun StartFragment.observeLatLng() {
 
 fun StartFragment.observeSuggestions() {
     startFragmentViewModel.suggestions.observe(this) {
+        toast("observing suggestions $it")
         searchBar.updateLastSuggestions(it)
     }
 }

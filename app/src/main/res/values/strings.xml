@@ -5,4 +5,5 @@
     <string name="tab_end_text">END</string>
     <string name="tab_info_text">INFO</string>
     <string name="search_title">Search</string>
+    <string name="search_hint">Search Locations</string>
 </resources>

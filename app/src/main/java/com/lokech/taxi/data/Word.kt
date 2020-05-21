@@ -4,8 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Search(
-    @PrimaryKey
+data class Word(
     val word: String,
-    val placeId: String
+    val placeId: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
 )

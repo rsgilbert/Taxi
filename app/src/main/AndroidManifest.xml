@@ -17,12 +17,6 @@
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <provider
-            android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
-            android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
-            android:exported="false"
-            android:protectionLevel="signature"
-            android:syncable="true" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Journey::class], version = 1)
+@Database(entities = [Journey::class, Place::class, Word::class], version = 1)
 abstract class TaxiDatabase : RoomDatabase() {
     abstract val dao: Dao
 }
