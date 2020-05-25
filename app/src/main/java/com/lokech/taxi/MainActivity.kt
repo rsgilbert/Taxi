@@ -37,11 +37,6 @@ class MainActivity : AppCompatActivity() {
         connectDrawerToController(binding.navView)
     }
 
-//    override fun onBackPressed() =
-//        if (searchView.isOpen)
-//            searchView.closeSearch()
-//        else
-//            super.onBackPressed()
 
     // Allow navigation to previous fragments using up arrow in actionbar
     // AppbarConfiguration provides top level destinations
