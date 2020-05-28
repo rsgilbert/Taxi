@@ -15,8 +15,10 @@ import com.lokech.taxi.util.getRepository
 import com.mancj.materialsearchbar.MaterialSearchBar
 
 open class StartFragment : MapFragment() {
-    val startFragmentViewModel: StartFragmentViewModel by viewModels {
-        StartFragmentViewModelFactory(getRepository())
+    val newJourneyViewModel: NewJourneyViewModel by viewModels(
+        { requireParentFragment() }
+    ) {
+        NewJourneyViewModelFactory(getRepository())
     }
 
     lateinit var searchBar: MaterialSearchBar
@@ -43,7 +45,7 @@ open class StartFragment : MapFragment() {
 }
 
 fun StartFragment.observeLatLng() {
-    startFragmentViewModel.latLng.observe(this) {
+    newJourneyViewModel.latLng.observe(this) {
         it?.let { latLng ->
             setCamera(latLng)
             setOneMarker(latLng)
@@ -52,7 +54,7 @@ fun StartFragment.observeLatLng() {
 }
 
 fun StartFragment.observeSuggestions() {
-    startFragmentViewModel.suggestions.observe(this) {
+    newJourneyViewModel.suggestions.observe(this) {
         searchBar.updateLastSuggestions(it)
     }
 }
@@ -81,7 +83,7 @@ fun StartFragment.initializeSearchBar() {
 }
 
 fun StartFragment.searchPlaces(query: CharSequence?) {
-    if (!query.isNullOrBlank()) startFragmentViewModel.searchPlaces(query.toString())
+    if (!query.isNullOrBlank()) newJourneyViewModel.searchPlaces(query.toString())
 }
 
 val StartFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
@@ -106,6 +108,6 @@ val StartFragment.textWatcher: TextWatcher
 
 val StartFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
     get() = PlaceSuggestionsAdapter.OnClickListener { place ->
-        startFragmentViewModel.setLatLng(place)
+        newJourneyViewModel.setLatLng(place)
         hideSearchBar()
     }

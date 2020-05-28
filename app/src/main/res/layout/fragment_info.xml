@@ -5,14 +5,34 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:padding="16dp"
         android:orientation="vertical">
 
-        <TextView
+        <EditText
+            android:id="@+id/vehicle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Vehicle"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vehicle"
+            android:hint="Time"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/post_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="info" />
-    </LinearLayout>
+            android:layout_below="@+id/time"
+            android:layout_centerHorizontal="true"
+            android:text="POST" />
+    </RelativeLayout>
 </layout>

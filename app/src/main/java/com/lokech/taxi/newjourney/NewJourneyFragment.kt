@@ -6,17 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lokech.taxi.R
 import com.lokech.taxi.databinding.FragmentNewJourneyBinding
-import com.lokech.taxi.util.getRepository
 
 class NewJourneyFragment : Fragment() {
-    val newJourneyViewModel: NewJourneyViewModel by viewModels {
-        NewJourneyViewModelFactory(getRepository())
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
