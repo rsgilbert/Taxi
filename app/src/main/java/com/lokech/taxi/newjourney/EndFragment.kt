@@ -46,7 +46,7 @@ open class EndFragment : MapFragment() {
 }
 
 fun EndFragment.observeLatLng() {
-    newJourneyViewModel.latLng.observe(this) {
+    newJourneyViewModel.endLatLng.observe(this) {
         it?.let { latLng ->
             setCamera(latLng)
             setOneMarker(latLng)
@@ -109,6 +109,6 @@ val EndFragment.textWatcher: TextWatcher
 
 val EndFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
     get() = PlaceSuggestionsAdapter.OnClickListener { place ->
-        newJourneyViewModel.setLatLng(place)
+        newJourneyViewModel.setEndLatLng(place)
         hideSearchBar()
     }

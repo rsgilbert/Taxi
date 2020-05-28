@@ -25,4 +25,12 @@ class Repository(private val dao: Dao) {
             e.printStackTrace()
         }
     }
+
+    suspend fun postJourney(journey: Journey) {
+        try {
+            dao.insertOneJourney(journey)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

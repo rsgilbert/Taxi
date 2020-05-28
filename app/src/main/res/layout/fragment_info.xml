@@ -20,13 +20,22 @@
             android:textColor="@android:color/black" />
 
         <EditText
-            android:id="@+id/time"
+            android:id="@+id/charge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/vehicle"
-            android:hint="Time"
+            android:hint="Charge"
+            android:inputType="numberSigned"
             android:textColor="@android:color/black" />
 
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/charge"
+            android:hint="Time"
+            android:inputType="datetime"
+            android:textColor="@android:color/black" />
         <Button
             android:id="@+id/post_button"
             android:layout_width="wrap_content"

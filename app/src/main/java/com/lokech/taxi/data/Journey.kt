@@ -5,10 +5,13 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Journey(
-    @PrimaryKey
-    val _id: String,
-    val startLatitude: String,
-    val startLongitude: String,
-    val endLatitude: String,
-    val charge: Long
+    val startLatitude: Double,
+    val startLongitude: Double,
+    val endLatitude: Double,
+    val endLongitude: Double,
+    val time: Long,
+    val charge: Long,
+    val vehicle: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
 )
