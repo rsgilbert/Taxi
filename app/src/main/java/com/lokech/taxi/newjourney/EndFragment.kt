@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.MapFragment
 import com.lokech.taxi.R
 import com.lokech.taxi.setCamera
@@ -46,8 +47,9 @@ open class EndFragment : MapFragment() {
 }
 
 fun EndFragment.observeLatLng() {
-    newJourneyViewModel.endLatLng.observe(this) {
-        it?.let { latLng ->
+    newJourneyViewModel.endPlace.observe(this) {
+        it?.let { place ->
+            val latLng = LatLng(place.latitude, place.longitude)
             setCamera(latLng)
             setOneMarker(latLng)
         }

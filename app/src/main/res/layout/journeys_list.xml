@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.lokech.taxi.journeys.JourneysFragment">
+
+    <data>
+
+        <variable
+            name="journeysViewModel"
+            type="com.lokech.taxi.journeys.JourneysViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/journeys"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="6dp"
+            app:addDivider="@{true}"
+            app:journeysList="@{journeysViewModel.journeys }"
+            tools:listitem="@layout/journeys_item" />
+    </RelativeLayout>
+</layout>

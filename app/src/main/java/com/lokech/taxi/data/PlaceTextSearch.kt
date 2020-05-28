@@ -10,7 +10,7 @@ val PlaceTextSearch.places: List<Place>
 
 data class Result(
     val id: String,
-    val formatted_address: String,
+    val formatted_address: String?,
     val geometry: Geometry,
     val icon: String,
     val name: String
@@ -19,7 +19,7 @@ data class Result(
         id = id,
         name = name,
         icon = icon,
-        address = formatted_address,
+        address = formatted_address ?: "Unknown Address",
         latitude = geometry.location.lat,
         longitude = geometry.location.lng
     )

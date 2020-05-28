@@ -1,7 +1,6 @@
 package com.lokech.taxi.newjourney
 
 import androidx.lifecycle.*
-import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.Repository
 import com.lokech.taxi.data.Journey
 import com.lokech.taxi.data.Place
@@ -16,16 +15,16 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
         liveData<List<Place>> { repository.getPlaces(it) }
     }
 
-    val startLatLng = MutableLiveData<LatLng>()
+    val startPlace = MutableLiveData<Place>()
 
-    val endLatLng = MutableLiveData<LatLng>()
+    val endPlace = MutableLiveData<Place>()
 
-    fun setStartLatLng(place: Place) {
-        startLatLng.value = LatLng(place.latitude, place.longitude)
+    fun setStartPlace(place: Place) {
+        startPlace.value = place
     }
 
     fun setEndLatLng(place: Place) {
-        endLatLng.value = LatLng(place.latitude, place.longitude)
+        endPlace.value = place
     }
 
     fun searchPlaces(placeName: String) {
@@ -36,16 +35,19 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
     }
 
     fun postJourney(charge: Long, vehicle: String, time: Long) {
-        startLatLng.value?.let { startLatLng ->
-            endLatLng.value?.let { endLatLng ->
+        startPlace.value?.let { startPlace ->
+            endPlace.value?.let { endPlace ->
                 val journey = Journey(
-                    startLatitude = startLatLng.latitude,
-                    startLongitude = startLatLng.longitude,
-                    endLatitude = endLatLng.latitude,
-                    endLongitude = endLatLng.longitude,
+                    startLatitude = startPlace.latitude,
+                    startLongitude = startPlace.longitude,
+                    startAddress = startPlace.address,
+                    endLatitude = endPlace.latitude,
+                    endLongitude = endPlace.longitude,
+                    endAddress = endPlace.address,
                     charge = charge,
                     vehicle = vehicle,
-                    time = time
+                    time = time,
+                    picture = startPlace.icon
                 )
                 viewModelScope.launch {
                     repository.postJourney(journey)

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.MapFragment
 import com.lokech.taxi.R
 import com.lokech.taxi.setCamera
@@ -45,8 +46,9 @@ open class StartFragment : MapFragment() {
 }
 
 fun StartFragment.observeLatLng() {
-    newJourneyViewModel.startLatLng.observe(this) {
-        it?.let { latLng ->
+    newJourneyViewModel.startPlace.observe(this) {
+        it?.let { place ->
+            val latLng = LatLng(place.latitude, place.longitude)
             setCamera(latLng)
             setOneMarker(latLng)
         }
@@ -108,6 +110,6 @@ val StartFragment.textWatcher: TextWatcher
 
 val StartFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
     get() = PlaceSuggestionsAdapter.OnClickListener { place ->
-        newJourneyViewModel.setStartLatLng(place)
+        newJourneyViewModel.setStartPlace(place)
         hideSearchBar()
     }

@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/journeysFragment"
+        android:title="@string/journeys_title" />
+    <item
         android:id="@+id/newJourneyFragment"
         android:title="@string/new_journey_title" />
+
+
 </menu>

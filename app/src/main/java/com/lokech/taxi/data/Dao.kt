@@ -10,7 +10,7 @@ import androidx.room.Query
 interface Dao {
 
     @get:Query("SELECT * FROM Journey")
-    val allJourneys: LiveData<Journey>
+    val allJourneys: LiveData<List<Journey>>
 
     @Query("SELECT * FROM Word WHERE word = :searchWord")
     suspend fun getWords(searchWord: String): List<Word>
