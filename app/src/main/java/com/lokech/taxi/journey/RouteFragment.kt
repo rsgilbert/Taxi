@@ -22,8 +22,8 @@ class RouteFragment : MapFragment() {
 
 fun RouteFragment.setRoute() {
     journeyViewModel.journey.observe(this) {
-        val startLatLng: LatLng = LatLng(it.startLatitude, it.startLongitude)
-        val endLatLng: LatLng = LatLng(it.endLatitude, it.endLongitude)
+        val startLatLng = LatLng(it.startLatitude, it.startLongitude)
+        val endLatLng = LatLng(it.endLatitude, it.endLongitude)
         setCamera(startLatLng)
         addGreenMarker(startLatLng)
         addRedMarker(endLatLng)

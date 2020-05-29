@@ -21,6 +21,7 @@ class JourneyFragment : Fragment() {
         )
 
         binding.pager.adapter = JourneyViewPagerAdapter(this)
+        binding.pager.isUserInputEnabled = false
 
         TabLayoutMediator(binding.tabLayout, binding.pager, tabConfiguration).attach()
 
