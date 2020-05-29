@@ -8,10 +8,7 @@ import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.google.android.gms.maps.model.LatLng
-import com.lokech.taxi.MapFragment
-import com.lokech.taxi.R
-import com.lokech.taxi.setCamera
-import com.lokech.taxi.setOneMarker
+import com.lokech.taxi.*
 import com.lokech.taxi.util.repository
 import com.mancj.materialsearchbar.MaterialSearchBar
 
@@ -27,6 +24,7 @@ open class StartFragment : MapFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
+        moveCameraToCurrentLocation()
         initializeSearchBar()
         observeSuggestions()
         observePlace()

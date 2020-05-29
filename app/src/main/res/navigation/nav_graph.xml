@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_newJourneyFragment_to_journeysFragment"
             app:destination="@id/journeysFragment" />
+        <action
+            android:id="@+id/action_newJourneyFragment_to_journeyFragment"
+            app:destination="@id/journeyFragment" />
     </fragment>
     <fragment
         android:id="@+id/journeysFragment"
@@ -26,7 +29,7 @@
     <fragment
         android:id="@+id/journeyFragment"
         android:name="com.lokech.taxi.journey.JourneyFragment"
-        android:label="JourneyFragment"
+        android:label="@string/journey_title"
         tools:layout="@layout/view_pager">
         <argument
             android:name="journeyId"

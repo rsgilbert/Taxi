@@ -2,6 +2,7 @@ package com.lokech.taxi
 
 import androidx.lifecycle.LiveData
 import com.lokech.taxi.data.*
+import com.lokech.taxi.util.flatLatLng
 import timber.log.Timber
 
 class Repository(private val dao: Dao) {
@@ -32,11 +33,30 @@ class Repository(private val dao: Dao) {
         }
     }
 
-    suspend fun postJourney(journey: Journey) {
-        try {
-            dao.insertOneJourney(journey)
+    suspend fun getLine(
+        startLatitude: Double,
+        startLongitude: Double,
+        endLatitude: Double,
+        endLongitude: Double
+    ): String? {
+        val origin: String = flatLatLng(startLatitude, startLongitude)
+        val destination: String = flatLatLng(endLatitude, endLongitude)
+        return try {
+            val direction: Direction = getNetworkService().requestDirection(origin, destination)
+            direction.line
         } catch (e: Exception) {
             e.printStackTrace()
+            null
+        }
+    }
+
+    suspend fun postJourney(journey: Journey): Journey? {
+        return try {
+            dao.insertOneJourney(journey)
+            dao.getOneJourneyByStartAddress(journey.startAddress)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 }

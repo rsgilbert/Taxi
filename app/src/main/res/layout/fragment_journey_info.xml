@@ -1,68 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="journeyViewModel"
+            type="com.lokech.taxi.journey.JourneyViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
+
 
         <TextView
             android:id="@+id/vehicle_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vehicle" />
-        <EditText
+
+        <TextView
             android:id="@+id/vehicle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/vehicle_title"
-            android:hint="Vehicle"
-            android:textColor="@android:color/black" />
+            android:layout_below="@id/vehicle_title"
+            android:text="@{journeyViewModel.journey.vehicle}"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/size_normal"
+            tools:text="Lamborghini" />
 
         <TextView
             android:id="@+id/charge_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/vehicle"
+            android:layout_below="@+id/vehicle"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/charge_title" />
 
-        <EditText
+        <TextView
             android:id="@+id/charge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/charge_title"
-            android:hint="Charge"
-            android:inputType="numberSigned"
-            android:textColor="@android:color/black" />
+            android:layout_below="@id/charge_title"
+            android:text="@{@string/charge_text(journeyViewModel.journey.charge)}"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/size_normal"
+            tools:text="2000/=" />
 
         <TextView
             android:id="@+id/time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/charge"
+            android:layout_below="@+id/charge"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/time_title" />
-        <EditText
+
+        <TextView
             android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/time_title"
-            android:hint="Time"
-            android:inputType="datetime"
-            android:textColor="@android:color/black" />
+            android:layout_below="@id/time_title"
+            android:text="@{String.valueOf(journeyViewModel.journey.time)}"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/size_normal"
+            tools:text="Monday 8:00pm" />
+
         <Button
-            android:id="@+id/post_button"
+            android:id="@+id/book_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/time"
             android:layout_centerHorizontal="true"
-            android:text="POST" />
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="BOOK" />
     </RelativeLayout>
 </layout>

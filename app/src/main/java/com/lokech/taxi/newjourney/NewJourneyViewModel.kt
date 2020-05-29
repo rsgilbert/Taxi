@@ -13,6 +13,15 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
 
     val action = MutableLiveData<Int>()
 
+    val navigateToJourneyLiveData = MutableLiveData<Int>()
+
+    fun startNavigateToJourney(id: Int) {
+        navigateToJourneyLiveData.value = id
+    }
+
+    fun completeNavigateToJourney() {
+        navigateToJourneyLiveData.value = null
+    }
 
     val suggestions: LiveData<List<Place>> = searchWord.switchMap {
         liveData<List<Place>> {
@@ -42,25 +51,37 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
     fun postJourney(charge: Long, vehicle: String, time: Long) {
         startPlace.value?.let { startPlace ->
             endPlace.value?.let { endPlace ->
-                val journey = Journey(
-                    startLatitude = startPlace.latitude,
-                    startLongitude = startPlace.longitude,
-                    startAddress = startPlace.address,
-                    endLatitude = endPlace.latitude,
-                    endLongitude = endPlace.longitude,
-                    endAddress = endPlace.address,
-                    charge = charge,
-                    vehicle = vehicle,
-                    time = time,
-                    picture = startPlace.icon
-                )
                 viewModelScope.launch {
-                    repository.postJourney(journey)
-                    action.value = NAVIGATE_TO_JOURNEYS_ACTION
+                    val line: String? = repository.getLine(
+                        startLatitude = startPlace.latitude,
+                        startLongitude = startPlace.longitude,
+                        endLatitude = endPlace.latitude,
+                        endLongitude = endPlace.longitude
+                    )
+                    line?.let {
+                        val journey = Journey(
+                            startLatitude = startPlace.latitude,
+                            startLongitude = startPlace.longitude,
+                            startAddress = startPlace.address,
+                            endLatitude = endPlace.latitude,
+                            endLongitude = endPlace.longitude,
+                            endAddress = endPlace.address,
+                            charge = charge,
+                            vehicle = vehicle,
+                            time = time,
+                            picture = startPlace.icon,
+                            line = line
+                        )
+                        val postedJourney: Journey? = repository.postJourney(journey)
+                        postedJourney?.let {
+                            Timber.i("Posted journey is $postedJourney")
+                            startNavigateToJourney(it.id)
+                        }
+                    }
                 }
             }
         }
-        Timber.i("Posting journey with $vehicle and $time")
+        Timber.i("Posting journey")
     }
 
 

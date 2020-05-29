@@ -9,13 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
-import com.lokech.taxi.MapFragment
-import com.lokech.taxi.R
-import com.lokech.taxi.setCamera
-import com.lokech.taxi.setOneMarker
+import com.lokech.taxi.*
 import com.lokech.taxi.util.repository
 import com.mancj.materialsearchbar.MaterialSearchBar
-import org.jetbrains.anko.support.v4.toast
 
 open class EndFragment : MapFragment() {
     val newJourneyViewModel: NewJourneyViewModel by viewModels(
@@ -30,10 +26,11 @@ open class EndFragment : MapFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
+        moveCameraToCurrentLocation()
         initializeSearchBar()
         observeSuggestions()
         observePlace()
-        observeActions()
+        observeNavigateToJourney()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -118,17 +115,13 @@ val EndFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
         hideSearchBar()
     }
 
-fun EndFragment.observeActions() {
-    newJourneyViewModel.action.observe(this) {
-        when (it) {
-            NAVIGATE_TO_JOURNEYS_ACTION -> gotoJourneys()
+
+fun EndFragment.observeNavigateToJourney() {
+    newJourneyViewModel.navigateToJourneyLiveData.observe(this) {
+        it?.let {
+            val action = NewJourneyFragmentDirections.actionNewJourneyFragmentToJourneyFragment(it)
+            findNavController().navigate(action)
+            newJourneyViewModel.completeNavigateToJourney()
         }
     }
-}
-
-fun EndFragment.gotoJourneys() {
-    toast("going to journeys")
-    val action = NewJourneyFragmentDirections.actionNewJourneyFragmentToJourneysFragment()
-    findNavController().navigate(action)
-    newJourneyViewModel.actionComplete()
 }

@@ -15,4 +15,5 @@
     <dimen name="credits_image_margin">32dp</dimen>
     <dimen name="spacing_large">32dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="size_normal">20sp</dimen>
 </resources>

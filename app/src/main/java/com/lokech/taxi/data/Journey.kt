@@ -15,6 +15,7 @@ data class Journey(
     val charge: Long,
     val vehicle: String,
     val picture: String? = null,
+    val line: String,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )

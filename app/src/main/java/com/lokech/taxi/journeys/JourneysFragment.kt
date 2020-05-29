@@ -48,7 +48,6 @@ class JourneysFragment : Fragment() {
 
 val JourneysFragment.itemListClickListener: JourneysAdapter.OnClickListener
     get() = JourneysAdapter.OnClickListener {
-        toast("Journey with address ${it.startAddress} clicked!")
         val action = JourneysFragmentDirections.actionJourneysFragmentToJourneyFragment(it.id)
         findNavController().navigate(action)
     }

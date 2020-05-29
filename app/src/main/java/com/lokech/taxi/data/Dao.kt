@@ -21,6 +21,9 @@ interface Dao {
     @Query("SELECT * FROM Place WHERE id IN (:placeIds)")
     suspend fun getPlaces(placeIds: Array<String>): List<Place>
 
+    @Query("SELECT * FROM Journey WHERE startAddress = :startAddress LIMIT 1")
+    suspend fun getOneJourneyByStartAddress(startAddress: String): Journey
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOneJourney(journey: Journey)
 
@@ -32,4 +35,6 @@ interface Dao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaces(places: List<Place>)
+
+
 }

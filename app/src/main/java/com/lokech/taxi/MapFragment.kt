@@ -18,8 +18,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
+import com.google.maps.android.PolyUtil
 import org.jetbrains.anko.support.v4.longToast
 import timber.log.Timber
 import java.util.*
@@ -50,7 +52,6 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
             if (isLocationPermissionsEnabled()) {
                 it.isMyLocationEnabled = true
                 it.uiSettings.isMyLocationButtonEnabled = true
-                moveCameraToCurrentLocation()
             } else {
                 requestLocationPermissions()
             }
@@ -83,15 +84,10 @@ fun MapFragment.initializePlaces() {
 }
 
 
-//private fun showPolygon(isRestore: Boolean) {
-//    toast("Show Polygon")
-//    val decodedPath =
-//        PolyUtil.decode(LINE)
-//
-//    map?.addPolyline(PolylineOptions().addAll(decodedPath))
-//
-//
-//}
+fun MapFragment.addPolyline(line: String) {
+    val decodedPath: List<LatLng> = PolyUtil.decode(line)
+    getMap()?.addPolyline(PolylineOptions().addAll(decodedPath))
+}
 
 fun MapFragment.setCamera(latLng: LatLng) {
     getMap()?.moveCamera(
@@ -112,11 +108,32 @@ fun MapFragment.setOneMarker(latLng: LatLng) {
     }
 }
 
+fun MapFragment.addGreenMarker(latLng: LatLng) {
+    getMap()?.apply {
+        addMarker(
+            MarkerOptions().position(
+                latLng
+            ).draggable(true)
+        )
+    }
+}
+
+fun MapFragment.addRedMarker(latLng: LatLng) {
+    getMap()?.apply {
+        addMarker(
+            MarkerOptions().position(
+                latLng
+            ).draggable(true)
+        )
+    }
+}
+
 
 fun MapFragment.getFusedLocationProviderClient(): FusedLocationProviderClient =
     LocationServices.getFusedLocationProviderClient(requireActivity())
 
 fun MapFragment.getMap() = map
+
 
 fun MapFragment.moveCameraToCurrentLocation() {
     try {
