@@ -4,9 +4,10 @@
     <string name="tab_start_text">START</string>
     <string name="tab_end_text">END</string>
     <string name="tab_info_text">INFO</string>
+    <string name="tab_route_text">ROUTE</string>
     <string name="search_title">Search</string>
     <string name="search_hint">Search Locations</string>
-    <string name="start_address">Start: %1$s</string>
-    <string name="end_address">End: %1$s</string>
+    <string name="start_address"><b>Start:</b> %1$s</string>
+    <string name="end_address"><b>End:</b> %1$s</string>
     <string name="journeys_title">Journeys</string>
 </resources>

@@ -7,19 +7,21 @@ import android.text.TextWatcher
 import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.MapFragment
 import com.lokech.taxi.R
 import com.lokech.taxi.setCamera
 import com.lokech.taxi.setOneMarker
-import com.lokech.taxi.util.getRepository
+import com.lokech.taxi.util.repository
 import com.mancj.materialsearchbar.MaterialSearchBar
+import org.jetbrains.anko.support.v4.toast
 
 open class EndFragment : MapFragment() {
     val newJourneyViewModel: NewJourneyViewModel by viewModels(
         { requireParentFragment() }
     ) {
-        NewJourneyViewModelFactory(getRepository())
+        NewJourneyViewModelFactory(repository)
     }
 
 
@@ -30,7 +32,8 @@ open class EndFragment : MapFragment() {
         setHasOptionsMenu(true)
         initializeSearchBar()
         observeSuggestions()
-        observeLatLng()
+        observePlace()
+        observeActions()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -46,7 +49,7 @@ open class EndFragment : MapFragment() {
     }
 }
 
-fun EndFragment.observeLatLng() {
+fun EndFragment.observePlace() {
     newJourneyViewModel.endPlace.observe(this) {
         it?.let { place ->
             val latLng = LatLng(place.latitude, place.longitude)
@@ -114,3 +117,18 @@ val EndFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
         newJourneyViewModel.setEndLatLng(place)
         hideSearchBar()
     }
+
+fun EndFragment.observeActions() {
+    newJourneyViewModel.action.observe(this) {
+        when (it) {
+            NAVIGATE_TO_JOURNEYS_ACTION -> gotoJourneys()
+        }
+    }
+}
+
+fun EndFragment.gotoJourneys() {
+    toast("going to journeys")
+    val action = NewJourneyFragmentDirections.actionNewJourneyFragmentToJourneysFragment()
+    findNavController().navigate(action)
+    newJourneyViewModel.actionComplete()
+}

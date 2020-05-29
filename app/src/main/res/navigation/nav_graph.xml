@@ -9,10 +9,27 @@
         android:id="@+id/newJourneyFragment"
         android:name="com.lokech.taxi.newjourney.NewJourneyFragment"
         android:label="@string/new_journey_title"
-        tools:layout="@layout/fragment_new_journey" />
+        tools:layout="@layout/view_pager">
+        <action
+            android:id="@+id/action_newJourneyFragment_to_journeysFragment"
+            app:destination="@id/journeysFragment" />
+    </fragment>
     <fragment
         android:id="@+id/journeysFragment"
         android:name="com.lokech.taxi.journeys.JourneysFragment"
-        android:label="journeys_list"
-        tools:layout="@layout/journeys_list" />
+        android:label="@string/journeys_title"
+        tools:layout="@layout/journeys_list">
+        <action
+            android:id="@+id/action_journeysFragment_to_journeyFragment"
+            app:destination="@id/journeyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/journeyFragment"
+        android:name="com.lokech.taxi.journey.JourneyFragment"
+        android:label="JourneyFragment"
+        tools:layout="@layout/view_pager">
+        <argument
+            android:name="journeyId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

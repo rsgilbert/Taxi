@@ -12,6 +12,9 @@ interface Dao {
     @get:Query("SELECT * FROM Journey")
     val allJourneys: LiveData<List<Journey>>
 
+    @Query("SELECT * FROM Journey WHERE id = :journeyId LIMIT 1")
+    fun getJourney(journeyId: Int): LiveData<Journey>
+
     @Query("SELECT * FROM Word WHERE word = :searchWord")
     suspend fun getWords(searchWord: String): List<Word>
 

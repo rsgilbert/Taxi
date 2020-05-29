@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.lokech.taxi.R
 import com.lokech.taxi.databinding.FragmentInfoBinding
-import com.lokech.taxi.util.getRepository
+import com.lokech.taxi.util.repository
 
 class InfoFragment : Fragment() {
     private val newJourneyViewModel: NewJourneyViewModel by viewModels(
         { requireParentFragment() }
     ) {
-        NewJourneyViewModelFactory(getRepository())
+        NewJourneyViewModelFactory(repository)
     }
 
     override fun onCreateView(

@@ -12,14 +12,14 @@ import com.lokech.taxi.MapFragment
 import com.lokech.taxi.R
 import com.lokech.taxi.setCamera
 import com.lokech.taxi.setOneMarker
-import com.lokech.taxi.util.getRepository
+import com.lokech.taxi.util.repository
 import com.mancj.materialsearchbar.MaterialSearchBar
 
 open class StartFragment : MapFragment() {
     val newJourneyViewModel: NewJourneyViewModel by viewModels(
         { requireParentFragment() }
     ) {
-        NewJourneyViewModelFactory(getRepository())
+        NewJourneyViewModelFactory(repository)
     }
 
     lateinit var searchBar: MaterialSearchBar
@@ -29,7 +29,7 @@ open class StartFragment : MapFragment() {
         setHasOptionsMenu(true)
         initializeSearchBar()
         observeSuggestions()
-        observeLatLng()
+        observePlace()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -45,7 +45,7 @@ open class StartFragment : MapFragment() {
     }
 }
 
-fun StartFragment.observeLatLng() {
+fun StartFragment.observePlace() {
     newJourneyViewModel.startPlace.observe(this) {
         it?.let { place ->
             val latLng = LatLng(place.latitude, place.longitude)

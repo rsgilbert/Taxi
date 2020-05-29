@@ -94,10 +94,9 @@ fun MapFragment.initializePlaces() {
 //}
 
 fun MapFragment.setCamera(latLng: LatLng) {
-    getMap()?.animateCamera(
+    getMap()?.moveCamera(
         CameraUpdateFactory.newLatLngZoom(
-            latLng,
-            zoom
+            latLng, zoom
         )
     )
 }

@@ -14,7 +14,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 
 @BindingAdapter("imageUrl")
-fun CircleImageView.bindImage(imgUrl: String?) =
+fun CircleImageView.bindImage(imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
 //        val imgUri = imgUrl.toUri().buildUpon().build()
@@ -27,7 +27,7 @@ fun CircleImageView.bindImage(imgUrl: String?) =
             )
             .into(this)
     }
-
+}
 @BindingAdapter("addClickAnimation")
 fun View.addClickAnimation(shouldAdd: Boolean?) =
     shouldAdd?.let {
@@ -50,5 +50,9 @@ fun RecyclerView.addDivider(shouldAdd: Boolean?) =
     }
 
 @BindingAdapter("journeysList")
-fun RecyclerView.bindJourneysList(journeys: List<Journey>?) =
-    (adapter as JourneysAdapter).submitList(journeys)
+fun RecyclerView.bindJourneysList(journeys: List<Journey>?) {
+    journeys?.let {
+        (adapter as JourneysAdapter).submitList(journeys)
+    }
+
+}

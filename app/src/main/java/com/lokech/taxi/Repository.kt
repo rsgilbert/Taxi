@@ -1,17 +1,23 @@
 package com.lokech.taxi
 
+import androidx.lifecycle.LiveData
 import com.lokech.taxi.data.*
+import timber.log.Timber
 
 class Repository(private val dao: Dao) {
 
     val allJourneys = dao.allJourneys
 
-    suspend fun insertJourney(journey: Journey) = dao.insertOneJourney(journey)
+    fun getJourney(journeyId: Int): LiveData<Journey> {
+        return dao.getJourney(journeyId)
+    }
 
     suspend fun getPlaces(searchWord: String): List<Place> {
         val words = dao.getWords(searchWord)
         val placeIds = words.map { it.placeId }.toTypedArray()
-        return dao.getPlaces(placeIds)
+        val places = dao.getPlaces(placeIds)
+        Timber.i("Places are $places")
+        return places
     }
 
     suspend fun searchPlaces(searchWord: String) {

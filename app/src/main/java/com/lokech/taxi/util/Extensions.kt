@@ -16,11 +16,9 @@ val Fragment.supportActionBar: ActionBar?
 fun Fragment.setSupportActionBar(toolbar: Toolbar) =
     (activity as AppCompatActivity).setSupportActionBar(toolbar)
 
-fun Fragment.getRepository() = Repository(getDatabase(context!!).dao)
+val Fragment.repository: Repository
+    get() = Repository(getDatabase(context!!).dao)
 
 val Context.googleMapsKey: String
     get() = getString(R.string.google_maps_key)
 
-//fun Fragment.observe() {
-//    import androidx.lifecycle.observe
-//}

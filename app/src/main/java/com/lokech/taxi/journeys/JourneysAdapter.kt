@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lokech.taxi.data.Journey
 import com.lokech.taxi.databinding.JourneysItemBinding
+import timber.log.Timber
 
 class JourneysAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<Journey, JourneysAdapter.ViewHolder>(ItemDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val journey: Journey = getItem(position)
+        Timber.i("Journey to bind is $journey")
         holder.itemView.setOnClickListener {
             onClickListener.onClick(journey)
         }

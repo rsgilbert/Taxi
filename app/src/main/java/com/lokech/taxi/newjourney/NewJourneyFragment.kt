@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lokech.taxi.R
-import com.lokech.taxi.databinding.FragmentNewJourneyBinding
+import com.lokech.taxi.databinding.ViewPagerBinding
 
 class NewJourneyFragment : Fragment() {
     override fun onCreateView(
@@ -16,8 +16,8 @@ class NewJourneyFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentNewJourneyBinding>(
-            inflater, R.layout.fragment_new_journey, container, false
+        val binding = DataBindingUtil.inflate<ViewPagerBinding>(
+            inflater, R.layout.view_pager, container, false
         )
 
         binding.pager.adapter = ViewPagerAdapter(this)

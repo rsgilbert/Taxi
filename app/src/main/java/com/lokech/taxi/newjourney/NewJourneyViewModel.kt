@@ -11,8 +11,13 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
 
     private val searchWord = MutableLiveData<String>()
 
+    val action = MutableLiveData<Int>()
+
+
     val suggestions: LiveData<List<Place>> = searchWord.switchMap {
-        liveData<List<Place>> { repository.getPlaces(it) }
+        liveData<List<Place>> {
+            emit(repository.getPlaces(it))
+        }
     }
 
     val startPlace = MutableLiveData<Place>()
@@ -51,6 +56,7 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
                 )
                 viewModelScope.launch {
                     repository.postJourney(journey)
+                    action.value = NAVIGATE_TO_JOURNEYS_ACTION
                 }
             }
         }
@@ -58,4 +64,9 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
     }
 
 
+    fun actionComplete() {
+        action.value = null
+    }
 }
+
+const val NAVIGATE_TO_JOURNEYS_ACTION = 0

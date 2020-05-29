@@ -5,14 +5,15 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.lokech.taxi.R
 import com.lokech.taxi.databinding.JourneysListBinding
-import com.lokech.taxi.util.getRepository
+import com.lokech.taxi.util.repository
 import org.jetbrains.anko.support.v4.toast
 
 class JourneysFragment : Fragment() {
     val journeysViewModel: JourneysViewModel by viewModels {
-        JourneysViewModelFactory(getRepository())
+        JourneysViewModelFactory(repository)
     }
 
     override fun onCreateView(
@@ -24,7 +25,7 @@ class JourneysFragment : Fragment() {
         )
 
         binding.journeysViewModel = journeysViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.lifecycleOwner = this
         binding.journeys.adapter = JourneysAdapter(itemListClickListener)
 
         return binding.root
@@ -48,5 +49,7 @@ class JourneysFragment : Fragment() {
 val JourneysFragment.itemListClickListener: JourneysAdapter.OnClickListener
     get() = JourneysAdapter.OnClickListener {
         toast("Journey with address ${it.startAddress} clicked!")
+        val action = JourneysFragmentDirections.actionJourneysFragmentToJourneyFragment(it.id)
+        findNavController().navigate(action)
     }
 
