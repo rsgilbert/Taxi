@@ -16,6 +16,8 @@ data class Journey(
     val vehicle: String,
     val picture: String? = null,
     val line: String,
+    val duration: String,
+    val distance: String,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )
