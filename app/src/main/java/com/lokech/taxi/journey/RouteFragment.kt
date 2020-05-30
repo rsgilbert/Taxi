@@ -24,9 +24,14 @@ fun RouteFragment.setRoute() {
     journeyViewModel.journey.observe(this) {
         val startLatLng = LatLng(it.startLatitude, it.startLongitude)
         val endLatLng = LatLng(it.endLatitude, it.endLongitude)
-        setCamera(startLatLng)
-        addGreenMarker(startLatLng)
-        addRedMarker(endLatLng)
+        setCameraAroundBounds(
+            it.neBoundLatitude,
+            it.neBoundLongitude,
+            it.swBoundLatitude,
+            it.swBoundLongitude
+        )
+        addGreenMarker(startLatLng, snippet = it.startAddress)
+        addRedMarker(endLatLng, snippet = it.endAddress)
         addPolyline(it.line)
 
     }

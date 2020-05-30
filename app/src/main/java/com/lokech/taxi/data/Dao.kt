@@ -16,10 +16,10 @@ interface Dao {
     fun getJourney(journeyId: Int): LiveData<Journey>
 
     @Query("SELECT * FROM Word WHERE word = :searchWord")
-    suspend fun getWords(searchWord: String): List<Word>
+    fun getWords(searchWord: String): LiveData<List<Word>>
 
     @Query("SELECT * FROM Place WHERE id IN (:placeIds)")
-    suspend fun getPlaces(placeIds: Array<String>): List<Place>
+    fun getPlaces(placeIds: Array<String>): LiveData<List<Place>>
 
     @Query("SELECT * FROM Journey WHERE startAddress = :startAddress LIMIT 1")
     suspend fun getOneJourneyByStartAddress(startAddress: String): Journey

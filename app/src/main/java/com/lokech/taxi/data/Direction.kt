@@ -29,11 +29,20 @@ data class Direction(
 
     val endAddress: String
         get() = routes.first().legs.first().end_address
+
+    val bounds: Bounds
+        get() = routes.first().bounds
 }
 
 data class Route(
+    val bounds: Bounds,
     val legs: List<Leg>,
     val overview_polyline: Polyline
+)
+
+data class Bounds(
+    val northeast: ShortLocation,
+    val southwest: ShortLocation
 )
 
 data class Leg(

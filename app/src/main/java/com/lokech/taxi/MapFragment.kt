@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,13 +17,12 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.maps.android.PolyUtil
 import org.jetbrains.anko.support.v4.longToast
+import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 import java.util.*
 
@@ -48,6 +48,7 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap?) {
         map = googleMap
+//        setInfoWindow()
         map?.let {
             if (isLocationPermissionsEnabled()) {
                 it.isMyLocationEnabled = true
@@ -97,33 +98,45 @@ fun MapFragment.setCamera(latLng: LatLng) {
     )
 }
 
-fun MapFragment.setOneMarker(latLng: LatLng) {
+fun MapFragment.setCameraAroundBounds(
+    neBoundLatitude: Double, neBoundLongitude: Double,
+    swBoundLatitude: Double, swBoundLongitude: Double
+) {
+    val neBoundLatLng = LatLng(neBoundLatitude, neBoundLongitude)
+    val swBoundLatLng = LatLng(swBoundLatitude, swBoundLongitude)
+    val latLngBounds = LatLngBounds(swBoundLatLng, neBoundLatLng)
+    getMap()?.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, padding))
+}
+
+
+fun MapFragment.clearMarkers() {
+    getMap()?.clear()
+}
+
+fun MapFragment.addGreenMarker(latLng: LatLng, snippet: String) {
+    val title = "Start"
     getMap()?.apply {
-        clear()
         addMarker(
-            MarkerOptions().position(
-                latLng
-            ).draggable(true)
+            MarkerOptions()
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                .position(latLng)
+                .title(title)
+                .snippet(snippet)
+
         )
+//            .showInfoWindow()
     }
 }
 
-fun MapFragment.addGreenMarker(latLng: LatLng) {
+fun MapFragment.addRedMarker(latLng: LatLng, snippet: String) {
+    val title = "End"
     getMap()?.apply {
         addMarker(
-            MarkerOptions().position(
-                latLng
-            ).draggable(true)
-        )
-    }
-}
-
-fun MapFragment.addRedMarker(latLng: LatLng) {
-    getMap()?.apply {
-        addMarker(
-            MarkerOptions().position(
-                latLng
-            ).draggable(true)
+            MarkerOptions()
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+                .position(latLng)
+                .title(title)
+                .snippet(snippet)
         )
     }
 }
@@ -174,7 +187,28 @@ fun MapFragment.requestLocationPermissions() =
         LOCATION_REQUEST_CODE
     )
 
+fun MapFragment.setInfoWindow() {
+    getMap()?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+        override fun getInfoContents(marker: Marker?): View {
+            toast("Setting info")
+            val infoWindow: View = layoutInflater.inflate(R.layout.info_window, null)
+            val titleTextView: TextView = infoWindow.findViewById(R.id.titleTextView)
+            titleTextView.text = marker?.title
+            val snippetTextView: TextView = infoWindow.findViewById(R.id.snippetTextView)
+            snippetTextView.text = marker?.snippet
+
+            return infoWindow
+        }
+
+        // Return null here, so that getInfoContents() is called next.
+        override fun getInfoWindow(arg0: Marker?): View? {
+            return null
+        }
+    })
+}
+
 // Constants
-const val zoom = 20f
+const val zoom = 20F
 const val LOCATION_REQUEST_CODE = 101
+const val padding = 50
 

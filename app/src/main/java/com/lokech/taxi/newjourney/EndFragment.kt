@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.*
 import com.lokech.taxi.util.repository
 import com.mancj.materialsearchbar.MaterialSearchBar
+import org.jetbrains.anko.support.v4.toast
 
 open class EndFragment : MapFragment() {
     val newJourneyViewModel: NewJourneyViewModel by viewModels(
@@ -51,7 +52,8 @@ fun EndFragment.observePlace() {
         it?.let { place ->
             val latLng = LatLng(place.latitude, place.longitude)
             setCamera(latLng)
-            setOneMarker(latLng)
+            clearMarkers()
+            addRedMarker(latLng, snippet = place.address)
         }
     }
 }
@@ -67,6 +69,7 @@ fun EndFragment.hideSearchBar() {
 }
 
 fun EndFragment.openSearchBar() {
+    toast("endframent opening search")
     searchBar.apply {
         visibility = View.VISIBLE
         openSearch()
@@ -76,7 +79,7 @@ fun EndFragment.openSearchBar() {
 fun EndFragment.initializeSearchBar() {
     val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
     val placeSuggestionsAdapter = PlaceSuggestionsAdapter(inflater, suggestionClickListener)
-    searchBar = requireActivity().findViewById(R.id.search_bar)
+    searchBar = requireActivity().findViewById(R.id.end_search_bar)
     searchBar.run {
         setOnSearchActionListener(searchActionListener)
         addTextChangeListener(textWatcher)
@@ -92,6 +95,7 @@ fun EndFragment.searchPlaces(query: CharSequence?) {
 val EndFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
     get() = object : MaterialSearchBar.OnSearchActionListener {
         override fun onSearchStateChanged(enabled: Boolean) {
+            toast("endfrag closing search")
             if (!enabled) hideSearchBar()
         }
 
@@ -102,6 +106,7 @@ val EndFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
 val EndFragment.textWatcher: TextWatcher
     get() = object : TextWatcher {
         override fun onTextChanged(s: CharSequence?, end: Int, before: Int, count: Int) {
+            toast("Endfrag")
             searchPlaces(s)
         }
 
@@ -111,7 +116,8 @@ val EndFragment.textWatcher: TextWatcher
 
 val EndFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
     get() = PlaceSuggestionsAdapter.OnClickListener { place ->
-        newJourneyViewModel.setEndLatLng(place)
+        toast("endfragment setting place")
+        newJourneyViewModel.setEndPlace(place)
         hideSearchBar()
     }
 

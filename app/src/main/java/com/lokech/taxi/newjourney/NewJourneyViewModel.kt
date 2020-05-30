@@ -20,7 +20,7 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
 
     val navigateToJourneyLiveData = MutableLiveData<Int>()
 
-    fun startNavigateToJourney(id: Int) {
+    private fun startNavigateToJourney(id: Int) {
         navigateToJourneyLiveData.value = id
     }
 
@@ -29,9 +29,7 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
     }
 
     val suggestions: LiveData<List<Place>> = searchWord.switchMap {
-        liveData<List<Place>> {
-            emit(repository.getPlaces(it))
-        }
+        repository.getPlaces(it)
     }
 
     val startPlace = MutableLiveData<Place>()
@@ -42,7 +40,7 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
         startPlace.value = place
     }
 
-    fun setEndLatLng(place: Place) {
+    fun setEndPlace(place: Place) {
         endPlace.value = place
     }
 
@@ -73,10 +71,14 @@ class NewJourneyViewModel(private val repository: Repository) : ViewModel() {
                         val journey = Journey(
                             startLatitude = direction.startLatitude,
                             startLongitude = direction.startLongitude,
-                            startAddress = direction.startAddress,
+                            startAddress = startPlace.address,
                             endLatitude = direction.endLatitude,
                             endLongitude = direction.endLongitude,
-                            endAddress = direction.endAddress,
+                            endAddress = endPlace.address,
+                            neBoundLatitude = direction.bounds.northeast.lat,
+                            neBoundLongitude = direction.bounds.northeast.lng,
+                            swBoundLatitude = direction.bounds.southwest.lat,
+                            swBoundLongitude = direction.bounds.southwest.lng,
                             charge = charge,
                             vehicle = vehicle,
                             time = time,

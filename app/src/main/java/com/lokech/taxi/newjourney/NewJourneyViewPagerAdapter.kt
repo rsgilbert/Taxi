@@ -7,11 +7,12 @@ class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 3
 
-    override fun createFragment(position: Int): Fragment =
-        when (position) {
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
             0 -> StartFragment()
             1 -> EndFragment()
-            else -> InfoFragment()
+            2 -> InfoFragment()
+            else -> StartFragment()
         }
-
+    }
 }

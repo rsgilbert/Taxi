@@ -1,6 +1,8 @@
 package com.lokech.taxi
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.lokech.taxi.data.*
 import com.lokech.taxi.util.flatLatLng
 
@@ -12,11 +14,16 @@ class Repository(private val dao: Dao) {
         return dao.getJourney(journeyId)
     }
 
-    suspend fun getPlaces(searchWord: String): List<Place> {
+    fun getPlaces(searchWord: String): LiveData<List<Place>> {
         val words = dao.getWords(searchWord)
-        val placeIds = words.map { it.placeId }.toTypedArray()
-        return dao.getPlaces(placeIds)
+        val placeIdsLiveData: LiveData<Array<String>> = words.map { wordList ->
+            wordList.map { it.placeId }.toTypedArray()
+        }
+        return placeIdsLiveData.switchMap {
+            dao.getPlaces(it)
+        }
     }
+
 
     suspend fun searchPlaces(searchWord: String) {
         return try {
