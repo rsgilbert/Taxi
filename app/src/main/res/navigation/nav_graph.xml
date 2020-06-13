@@ -33,6 +33,6 @@
         tools:layout="@layout/view_pager">
         <argument
             android:name="journeyId"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
 </navigation>

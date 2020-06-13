@@ -1,27 +1,25 @@
 package com.lokech.taxi.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import java.util.*
 
-@Entity
+
 data class Journey(
-    val startLatitude: Double,
-    val startLongitude: Double,
-    val startAddress: String,
-    val endLatitude: Double,
-    val endLongitude: Double,
-    val endAddress: String,
-    val neBoundLatitude: Double,
-    val neBoundLongitude: Double,
-    val swBoundLatitude: Double,
-    val swBoundLongitude: Double,
-    val time: Long,
-    val charge: Long,
-    val vehicle: String,
-    val picture: String? = null,
-    val line: String,
-    val duration: String,
-    val distance: String,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    val id: String = Date().time.toString(),
+    val startLatitude: Double = 0.0,
+    val startLongitude: Double = 0.0,
+    val startAddress: String = "",
+    val endLatitude: Double = 0.0,
+    val endLongitude: Double = 0.0,
+    val endAddress: String = "",
+    val neBoundLatitude: Double = 0.0,
+    val neBoundLongitude: Double = 0.0,
+    val swBoundLatitude: Double = 0.0,
+    val swBoundLongitude: Double = 0.0,
+    val time: Long = 0,
+    val charge: Long = 0,
+    val vehicle: String = "",
+    val picture: String = "",
+    val line: String = "",
+    val duration: String = "",
+    val distance: String = ""
 )

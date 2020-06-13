@@ -10,16 +10,12 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.*
-import com.lokech.taxi.util.repository
 import com.mancj.materialsearchbar.MaterialSearchBar
 
 open class EndFragment : MapFragment() {
     val newJourneyViewModel: NewJourneyViewModel by viewModels(
         { requireParentFragment() }
-    ) {
-        NewJourneyViewModelFactory(repository)
-    }
-
+    )
 
     lateinit var searchBar: MaterialSearchBar
 
@@ -86,8 +82,8 @@ fun EndFragment.initializeSearchBar() {
     }
 }
 
-fun EndFragment.searchPlaces(query: CharSequence?) {
-    if (!query.isNullOrBlank()) newJourneyViewModel.searchPlaces(query.toString())
+fun EndFragment.setSearchWord(query: CharSequence?) {
+    if (!query.isNullOrBlank()) newJourneyViewModel.setSearchWord(query.toString())
 }
 
 val EndFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
@@ -103,7 +99,7 @@ val EndFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
 val EndFragment.textWatcher: TextWatcher
     get() = object : TextWatcher {
         override fun onTextChanged(s: CharSequence?, end: Int, before: Int, count: Int) {
-            searchPlaces(s)
+            setSearchWord(s)
         }
 
         override fun afterTextChanged(s: Editable?) {}

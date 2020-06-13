@@ -8,13 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.lokech.taxi.R
 import com.lokech.taxi.databinding.JourneysListBinding
-import com.lokech.taxi.util.repository
 import org.jetbrains.anko.support.v4.toast
 
 class JourneysFragment : Fragment() {
-    val journeysViewModel: JourneysViewModel by viewModels {
-        JourneysViewModelFactory(repository)
-    }
+    val journeysViewModel: JourneysViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,6 +42,7 @@ class JourneysFragment : Fragment() {
 
 
 }
+
 
 val JourneysFragment.itemListClickListener: JourneysAdapter.OnClickListener
     get() = JourneysAdapter.OnClickListener {

@@ -5,12 +5,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.*
-import com.lokech.taxi.util.repository
 
 class RouteFragment : MapFragment() {
     val journeyViewModel: JourneyViewModel by viewModels(
         { requireParentFragment() }) {
-        JourneyViewModelFactory(journeyId, repository)
+        JourneyViewModelFactory(journeyId)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -38,7 +37,7 @@ fun RouteFragment.setRoute() {
 }
 
 
-val RouteFragment.journeyId: Int
+val RouteFragment.journeyId: String
     get() = JourneyFragmentArgs.fromBundle(requireParentFragment().arguments!!).journeyId
 
 

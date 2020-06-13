@@ -8,6 +8,7 @@ data class PlaceTextSearch(
 val PlaceTextSearch.places: List<Place>
     get() = results.map { it.getPlace() }
 
+
 data class Result(
     val id: String,
     val formatted_address: String?,

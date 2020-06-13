@@ -1,13 +1,23 @@
 package com.lokech.taxi.journeys
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lokech.taxi.Repository
+import com.google.firebase.firestore.ktx.toObjects
 import com.lokech.taxi.data.Journey
+import com.lokech.taxi.util.journeyCollection
 
-class JourneysViewModel(private val repository: Repository) : ViewModel() {
+class JourneysViewModel : ViewModel() {
 
-    val journeys: LiveData<List<Journey>> = repository.allJourneys
+    val journeys = MutableLiveData<List<Journey>>()
 
 
+    init {
+        setJourneys()
+    }
+}
+
+fun JourneysViewModel.setJourneys() {
+    journeyCollection.addSnapshotListener { snapshot, _ ->
+        journeys.value = snapshot?.toObjects()
+    }
 }

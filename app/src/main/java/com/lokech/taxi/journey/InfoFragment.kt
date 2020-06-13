@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.lokech.taxi.R
 import com.lokech.taxi.databinding.FragmentJourneyInfoBinding
-import com.lokech.taxi.util.repository
 import org.jetbrains.anko.support.v4.toast
 
 class InfoFragment : Fragment() {
     private val journeyViewModel: JourneyViewModel by viewModels(
         { requireParentFragment() }
     ) {
-        JourneyViewModelFactory(journeyId, repository)
+        JourneyViewModelFactory(journeyId)
     }
 
     override fun onCreateView(
@@ -42,6 +41,6 @@ class InfoFragment : Fragment() {
     }
 }
 
-val InfoFragment.journeyId: Int
+val InfoFragment.journeyId: String
     get() = JourneyFragmentArgs.fromBundle(requireParentFragment().arguments!!).journeyId
 
