@@ -122,9 +122,7 @@ fun MapFragment.addGreenMarker(latLng: LatLng, snippet: String) {
                 .position(latLng)
                 .title(title)
                 .snippet(snippet)
-
         )
-//            .showInfoWindow()
     }
 }
 

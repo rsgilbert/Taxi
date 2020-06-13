@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
-
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -111,4 +111,13 @@ dependencies {
 
     // mancj materialsearchbar
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+
+    // Firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
+
+    // Firebase Storage
+    implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
 }

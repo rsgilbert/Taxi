@@ -20,7 +20,7 @@ class NewJourneyFragment : Fragment() {
             inflater, R.layout.view_pager, container, false
         )
 
-        binding.pager.adapter = ViewPagerAdapter(this)
+        binding.pager.adapter = NewJourneyViewPagerAdapter(this)
         binding.pager.isUserInputEnabled = false
 
         TabLayoutMediator(binding.tabLayout, binding.pager, tabConfiguration).attach()

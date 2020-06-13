@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "685052035211",
+    "firebase_url": "https://taxi-0.firebaseio.com",
+    "project_id": "taxi-0",
+    "storage_bucket": "taxi-0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685052035211:android:073b16afd046815217948e",
+        "android_client_info": {
+          "package_name": "com.lokech.taxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685052035211-8f69vem595vqje7jjkkv6p413vc87bkf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC1vD6cUjRL-uF97-G229tzCSmv9ZFvgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685052035211-8f69vem595vqje7jjkkv6p413vc87bkf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

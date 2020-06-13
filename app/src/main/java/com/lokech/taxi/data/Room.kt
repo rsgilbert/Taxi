@@ -18,7 +18,7 @@ fun getDatabase(context: Context): TaxiDatabase {
             INSTANCE = Room.databaseBuilder(
                 context.applicationContext,
                 TaxiDatabase::class.java,
-                "CampusHubDatabase"
+                "TaxiDatabase"
             ).build()
         }
     }

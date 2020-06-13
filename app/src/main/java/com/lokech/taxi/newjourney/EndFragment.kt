@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.lokech.taxi.*
 import com.lokech.taxi.util.repository
 import com.mancj.materialsearchbar.MaterialSearchBar
-import org.jetbrains.anko.support.v4.toast
 
 open class EndFragment : MapFragment() {
     val newJourneyViewModel: NewJourneyViewModel by viewModels(
@@ -69,7 +68,6 @@ fun EndFragment.hideSearchBar() {
 }
 
 fun EndFragment.openSearchBar() {
-    toast("endframent opening search")
     searchBar.apply {
         visibility = View.VISIBLE
         openSearch()
@@ -95,7 +93,6 @@ fun EndFragment.searchPlaces(query: CharSequence?) {
 val EndFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
     get() = object : MaterialSearchBar.OnSearchActionListener {
         override fun onSearchStateChanged(enabled: Boolean) {
-            toast("endfrag closing search")
             if (!enabled) hideSearchBar()
         }
 
@@ -106,7 +103,6 @@ val EndFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
 val EndFragment.textWatcher: TextWatcher
     get() = object : TextWatcher {
         override fun onTextChanged(s: CharSequence?, end: Int, before: Int, count: Int) {
-            toast("Endfrag")
             searchPlaces(s)
         }
 
@@ -116,7 +112,6 @@ val EndFragment.textWatcher: TextWatcher
 
 val EndFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
     get() = PlaceSuggestionsAdapter.OnClickListener { place ->
-        toast("endfragment setting place")
         newJourneyViewModel.setEndPlace(place)
         hideSearchBar()
     }
