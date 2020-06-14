@@ -1,4 +1,4 @@
-package com.lokech.taxi.journeys
+package com.lokech.taxi.journeylist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

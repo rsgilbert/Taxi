@@ -129,4 +129,8 @@ dependencies {
 
     // ThreeTenABP
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
+
+
+    // audio record view
+    implementation 'com.devlomi.record-view:record-view:2.0.1'
 }

@@ -1,4 +1,4 @@
-package com.lokech.taxi.journeys
+package com.lokech.taxi.journeylist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

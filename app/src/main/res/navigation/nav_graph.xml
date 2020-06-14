@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/journeysFragment">
+    app:startDestination="@id/journeyListFragment">
 
     <fragment
         android:id="@+id/newJourneyFragment"
@@ -12,15 +12,15 @@
         tools:layout="@layout/view_pager">
         <action
             android:id="@+id/action_newJourneyFragment_to_journeysFragment"
-            app:destination="@id/journeysFragment" />
+            app:destination="@id/journeyListFragment" />
         <action
             android:id="@+id/action_newJourneyFragment_to_journeyFragment"
             app:destination="@id/journeyFragment"
             app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
-        android:id="@+id/journeysFragment"
-        android:name="com.lokech.taxi.journeys.JourneysFragment"
+        android:id="@+id/journeyListFragment"
+        android:name="com.lokech.taxi.journeylist.JourneyListFragment"
         android:label="@string/journeys_title"
         tools:layout="@layout/journeys_list">
         <action

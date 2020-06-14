@@ -42,26 +42,11 @@
             android:inputType="numberSigned"
             android:textColor="@android:color/black" />
 
-        <TextView
-            android:id="@+id/time_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/charge"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/time_title" />
-        <EditText
-            android:id="@+id/time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/time_title"
-            android:hint="Time"
-            android:inputType="datetime"
-            android:textColor="@android:color/black" />
         <Button
             android:id="@+id/post_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/time"
+            android:layout_below="@+id/charge"
             android:layout_centerHorizontal="true"
             android:text="POST" />
     </RelativeLayout>

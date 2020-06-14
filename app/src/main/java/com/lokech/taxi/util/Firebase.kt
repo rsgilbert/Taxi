@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.lokech.taxi.data.Journey
@@ -18,6 +19,8 @@ import java.util.*
 
 
 val db: FirebaseFirestore = Firebase.firestore
+
+val storage: FirebaseStorage = Firebase.storage
 
 val journeyCollection: CollectionReference = db.collection("journeys")
 
@@ -47,7 +50,6 @@ fun uploadPicture(
     stream: InputStream,
     onUpload: (pictureUrl: String) -> Unit
 ) {
-    val storage = Firebase.storage
     val name = Date().time.toString()
     val uploadRef: StorageReference = storage.reference.child("images").child(name)
     uploadRef
@@ -61,6 +63,23 @@ fun uploadPicture(
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 onUpload(task.result.toString())
+            }
+        }
+}
+
+fun uploadAudioFile(audioStream: InputStream, onUpload: (audioUrl: String) -> Unit) {
+    val uploadRef = storage.reference.child("audios").child(Date().time.toString())
+    uploadRef.putStream(audioStream)
+        .continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let { throw it }
+            }
+            uploadRef.downloadUrl
+        }
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                onUpload(task.result.toString())
+                Timber.i("download url is ${task.result}")
             }
         }
 }
