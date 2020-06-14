@@ -27,9 +27,9 @@ class InfoFragment : Fragment() {
         binding.apply {
             postButton.setOnClickListener {
                 val vehicle = vehicle.text.toString()
-                val charge = charge.text.toString().toLong()
+                val charge = 0L
                 val time = 0L
-                newJourneyViewModel.postJourney(charge = charge, vehicle = vehicle, time = time)
+                newJourneyViewModel.postJourney(charge = charge, vehicle = vehicle)
             }
         }
 

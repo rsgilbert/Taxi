@@ -16,4 +16,5 @@
     <dimen name="spacing_large">32dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="size_normal">20sp</dimen>
+    <dimen name="middle_size">25sp</dimen>
 </resources>

@@ -16,6 +16,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_new_journey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:src="@drawable/ic_add_white" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/journeys"
             android:layout_width="match_parent"
@@ -26,5 +37,6 @@
             app:addDivider="@{true}"
             app:journeysList="@{journeysViewModel.journeys }"
             tools:listitem="@layout/journeys_item" />
+
     </RelativeLayout>
 </layout>

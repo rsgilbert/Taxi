@@ -9,18 +9,28 @@ import com.lokech.taxi.data.Journey
 import com.lokech.taxi.data.Place
 import com.lokech.taxi.data.Search
 import com.lokech.taxi.getNetworkService
-import com.lokech.taxi.util.flatLatLng
-import com.lokech.taxi.util.performNewSearch
-import com.lokech.taxi.util.saveJourney
-import com.lokech.taxi.util.searchCollection
+import com.lokech.taxi.util.*
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.util.*
 
 class NewJourneyViewModel : ViewModel() {
 
     val searchWord = MutableLiveData<String>()
 
     val navigateToJourneyLiveData = MutableLiveData<String>()
+
+    val dateTimeLiveData = MutableLiveData<LocalDateTime>().apply {
+        value = LocalDateTime.now()
+    }
+
+    val time = MutableLiveData<String>()
+    val date = MutableLiveData<String>()
+
 
     val suggestions = MutableLiveData<List<Place>>()
 
@@ -31,7 +41,18 @@ class NewJourneyViewModel : ViewModel() {
 
     init {
         setSuggestions()
+        setDateTime()
     }
+}
+
+fun NewJourneyViewModel.setDate(year: Int, month: Int, day: Int) {
+    dateTimeLiveData.value =
+        LocalDateTime.of(LocalDate.of(year, month, day), dateTimeLiveData.value!!.toLocalTime())
+}
+
+fun NewJourneyViewModel.setTime(hour: Int, minute: Int) {
+    dateTimeLiveData.value =
+        LocalDateTime.of(dateTimeLiveData.value!!.toLocalDate(), LocalTime.of(hour, minute))
 }
 
 fun NewJourneyViewModel.startNavigateToJourney(id: String) {
@@ -54,7 +75,7 @@ fun NewJourneyViewModel.setSearchWord(placeName: String) {
     searchWord.value = placeName
 }
 
-fun NewJourneyViewModel.postJourney(charge: Long, vehicle: String, time: Long) {
+fun NewJourneyViewModel.postJourney(charge: Long, vehicle: String) {
     startPlace.value?.let { startPlace ->
         endPlace.value?.let { endPlace ->
             viewModelScope.launch {
@@ -81,7 +102,7 @@ fun NewJourneyViewModel.postJourney(charge: Long, vehicle: String, time: Long) {
                         swBoundLongitude = direction.bounds.southwest.lng,
                         charge = charge,
                         vehicle = vehicle,
-                        time = time,
+                        time = dateTimeLiveData.value!!.millis,
                         picture = startPlace.icon,
                         line = direction.line,
                         duration = direction.duration,
@@ -95,8 +116,18 @@ fun NewJourneyViewModel.postJourney(charge: Long, vehicle: String, time: Long) {
     }
 }
 
+fun NewJourneyViewModel.setDateTime() {
+    dateTimeLiveData.observeForever {
+        val timeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
+        time.value = timeFormatter.format(it)
+        val dateFormatter = DateTimeFormatter.ofPattern("EEEE dd MMMM, yyyy", Locale.US)
+        date.value = dateFormatter.format(it)
+        Timber.i("New time is ${time.value} and New date is ${date.value}")
+    }
+}
+
 fun NewJourneyViewModel.setSuggestions() {
-    searchWord.observeForever { searchWord ->
+    searchWord.observeForever { searchWord: String ->
         Timber.i("New searchword is $searchWord")
         searchCollection
             .document(searchWord)
@@ -123,4 +154,3 @@ fun NewJourneyViewModel.setSuggestions() {
 }
 
 
-const val NAVIGATE_TO_JOURNEYS_ACTION = 0

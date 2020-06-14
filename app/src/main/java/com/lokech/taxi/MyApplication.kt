@@ -1,6 +1,7 @@
 package com.lokech.taxi
 
 import androidx.multidex.MultiDexApplication
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class MyApplication : MultiDexApplication() {
      */
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
         delayedUnit()
     }
 
@@ -31,5 +33,6 @@ class MyApplication : MultiDexApplication() {
             Timber.plant(Timber.DebugTree())
         }
     }
+
 
 }

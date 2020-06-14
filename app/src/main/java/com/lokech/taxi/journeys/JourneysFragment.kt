@@ -22,9 +22,13 @@ class JourneysFragment : Fragment() {
         )
 
         binding.journeysViewModel = journeysViewModel
-        binding.lifecycleOwner = this
-        binding.journeys.adapter = JourneysAdapter(itemListClickListener)
-
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            journeys.adapter = JourneysAdapter(itemListClickListener)
+            fabNewJourney.setOnClickListener {
+                findNavController().navigate(JourneysFragmentDirections.actionJourneysFragmentToNewJourneyFragment())
+            }
+        }
         return binding.root
     }
 

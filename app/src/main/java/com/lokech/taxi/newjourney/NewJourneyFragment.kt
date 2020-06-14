@@ -35,6 +35,7 @@ private val NewJourneyFragment.tabConfiguration: TabLayoutMediator.TabConfigurat
         when (position) {
             0 -> tab.text = getString(R.string.tab_start_text)
             1 -> tab.text = getString(R.string.tab_end_text)
+            2 -> tab.text = getString(R.string.tab_time_text)
             else -> tab.text = getString(R.string.tab_info_text)
         }
     }

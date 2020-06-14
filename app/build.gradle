@@ -29,8 +29,11 @@ android {
         experimental = true
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        // Flag to enable support for the new language APIs
+//        coreLibraryDesugaringEnabled true
+        // Sets Java compatibility to Java 8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -120,4 +123,10 @@ dependencies {
 
     // Firebase Storage
     implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
+
+    // desugar
+//    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.5'
+
+    // ThreeTenABP
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 }

@@ -15,7 +15,8 @@
             app:destination="@id/journeysFragment" />
         <action
             android:id="@+id/action_newJourneyFragment_to_journeyFragment"
-            app:destination="@id/journeyFragment" />
+            app:destination="@id/journeyFragment"
+            app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/journeysFragment"
@@ -25,6 +26,9 @@
         <action
             android:id="@+id/action_journeysFragment_to_journeyFragment"
             app:destination="@id/journeyFragment" />
+        <action
+            android:id="@+id/action_journeysFragment_to_newJourneyFragment"
+            app:destination="@id/newJourneyFragment" />
     </fragment>
     <fragment
         android:id="@+id/journeyFragment"
