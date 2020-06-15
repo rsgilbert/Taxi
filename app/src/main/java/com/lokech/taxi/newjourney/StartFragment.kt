@@ -1,111 +1,45 @@
 package com.lokech.taxi.newjourney
 
-import android.content.Context.LAYOUT_INFLATER_SERVICE
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.*
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.google.android.gms.maps.model.LatLng
-import com.lokech.taxi.*
-import com.mancj.materialsearchbar.MaterialSearchBar
+import com.lokech.taxi.R
+import com.lokech.taxi.addGreenMarker
+import com.lokech.taxi.clearMarkers
+import com.lokech.taxi.setCamera
+import timber.log.Timber
 
-open class StartFragment : MapFragment() {
-    val newJourneyViewModel: NewJourneyViewModel by viewModels(
-        { requireParentFragment() }
-    )
 
-    lateinit var searchBar: MaterialSearchBar
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setHasOptionsMenu(true)
-        moveCameraToCurrentLocation()
-        initializeSearchBar()
-        observeSuggestions()
-        observePlace()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_new_journey, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_search -> openSearchBar()
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
-}
-
-fun StartFragment.observePlace() {
-    newJourneyViewModel.startPlace.observe(this) {
-        it?.let { place ->
-            val latLng = LatLng(place.latitude, place.longitude)
-            setCamera(latLng)
-            clearMarkers()
-            addGreenMarker(latLng, snippet = place.address)
+class StartFragment : NewJourneyMapFragment() {
+    override fun observePlace() {
+        newJourneyViewModel.startPlace.observe(this) {
+            it?.let { place ->
+                val latLng = LatLng(place.latitude, place.longitude)
+                setCamera(latLng)
+                clearMarkers()
+                addGreenMarker(latLng = latLng, snippet = place.address)
+            }
         }
     }
-}
 
-fun StartFragment.observeSuggestions() {
-    newJourneyViewModel.suggestions.observe(this) {
-        searchBar.updateLastSuggestions(it)
-    }
-}
-
-fun StartFragment.hideSearchBar() {
-    searchBar.visibility = View.GONE
-}
-
-fun StartFragment.openSearchBar() {
-    searchBar.apply {
-        visibility = View.VISIBLE
-        openSearch()
-    }
-}
-
-fun StartFragment.initializeSearchBar() {
-    val inflater = requireActivity().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val placeSuggestionsAdapter = PlaceSuggestionsAdapter(inflater, suggestionClickListener)
-    searchBar = requireActivity().findViewById(R.id.start_search_bar)
-    searchBar.run {
-        setOnSearchActionListener(searchActionListener)
-        addTextChangeListener(textWatcher)
-        setCustomSuggestionAdapter(placeSuggestionsAdapter)
-        setCardViewElevation(20)
-    }
-}
-
-fun StartFragment.setSearchWord(query: CharSequence?) {
-    if (!query.isNullOrBlank()) newJourneyViewModel.setSearchWord(query.toString())
-}
-
-val StartFragment.searchActionListener: MaterialSearchBar.OnSearchActionListener
-    get() = object : MaterialSearchBar.OnSearchActionListener {
-        override fun onSearchStateChanged(enabled: Boolean) {
-            if (!enabled) hideSearchBar()
-        }
-
-        override fun onButtonClicked(buttonCode: Int) {}
-        override fun onSearchConfirmed(text: CharSequence?) {}
+    override fun setAudioUrl(audioUrl: String) {
+        newJourneyViewModel.setStartAudioUrl(audioUrl)
+        Timber.i("Journey is ${newJourneyViewModel.newJourneyLiveDate.value}")
     }
 
-val StartFragment.textWatcher: TextWatcher
-    get() = object : TextWatcher {
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            setSearchWord(s)
-        }
 
-        override fun afterTextChanged(s: Editable?) {}
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    override fun getAudioUrl(): String {
+        Timber.i("Journey is ${newJourneyViewModel.newJourneyLiveDate.value}")
+        return newJourneyViewModel.newJourneyLiveDate.value!!.startAudioUrl
     }
 
-val StartFragment.suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
-    get() = PlaceSuggestionsAdapter.OnClickListener { place ->
+    override val suggestionClickListener = PlaceSuggestionsAdapter.OnClickListener { place ->
         newJourneyViewModel.setStartPlace(place)
         hideSearchBar()
     }
+
+    override fun getSearchBarResourceId(): Int = R.id.start_search_bar
+
+
+}
+
+

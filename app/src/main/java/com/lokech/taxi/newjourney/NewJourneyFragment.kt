@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lokech.taxi.R
 import com.lokech.taxi.databinding.ViewPagerBinding
 
 class NewJourneyFragment : Fragment() {
+    val newJourneyViewModel: NewJourneyViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +30,7 @@ class NewJourneyFragment : Fragment() {
 
         TabLayoutMediator(binding.tabLayout, binding.pager, tabConfiguration).attach()
 
+        observeNavigateToJourney()
         return binding.root
 
     }
@@ -39,3 +45,13 @@ private val NewJourneyFragment.tabConfiguration: TabLayoutMediator.TabConfigurat
             else -> tab.text = getString(R.string.tab_info_text)
         }
     }
+
+fun NewJourneyFragment.observeNavigateToJourney() {
+    newJourneyViewModel.navigateToJourneyLiveData.observe(this) {
+        it?.let {
+            val action = NewJourneyFragmentDirections.actionNewJourneyFragmentToJourneyFragment(it)
+            findNavController().navigate(action)
+            newJourneyViewModel.completeNavigateToJourney()
+        }
+    }
+}

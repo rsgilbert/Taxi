@@ -22,22 +22,19 @@ class NewJourneyViewModel : ViewModel() {
 
     val searchWord = MutableLiveData<String>()
 
+    val newJourneyLiveDate = MutableLiveData<Journey>().apply { value = Journey() }
+
     val navigateToJourneyLiveData = MutableLiveData<String>()
 
-    val dateTimeLiveData = MutableLiveData<LocalDateTime>().apply {
-        value = LocalDateTime.now()
-    }
-
     val time = MutableLiveData<String>()
-    val date = MutableLiveData<String>()
 
+    val date = MutableLiveData<String>()
 
     val suggestions = MutableLiveData<List<Place>>()
 
     val startPlace = MutableLiveData<Place>()
 
     val endPlace = MutableLiveData<Place>()
-
 
     init {
         setSuggestions()
@@ -46,13 +43,20 @@ class NewJourneyViewModel : ViewModel() {
 }
 
 fun NewJourneyViewModel.setDate(year: Int, month: Int, day: Int) {
-    dateTimeLiveData.value =
-        LocalDateTime.of(LocalDate.of(year, month, day), dateTimeLiveData.value!!.toLocalTime())
+    newJourneyLiveDate.value = newJourneyLiveDate.value!!.copy(
+        dateTimeMillis = LocalDateTime.of(
+            LocalDate.of(year, month, day),
+            newJourneyLiveDate.value!!.getDateTime().toLocalTime()
+        ).millis
+    )
 }
 
 fun NewJourneyViewModel.setTime(hour: Int, minute: Int) {
-    dateTimeLiveData.value =
-        LocalDateTime.of(dateTimeLiveData.value!!.toLocalDate(), LocalTime.of(hour, minute))
+    newJourneyLiveDate.value = newJourneyLiveDate.value!!.copy(
+        dateTimeMillis = LocalDateTime.of(
+            newJourneyLiveDate.value!!.getDateTime().toLocalDate(), LocalTime.of(hour, minute)
+        ).millis
+    )
 }
 
 fun NewJourneyViewModel.startNavigateToJourney(id: String) {
@@ -69,6 +73,14 @@ fun NewJourneyViewModel.setStartPlace(place: Place) {
 
 fun NewJourneyViewModel.setEndPlace(place: Place) {
     endPlace.value = place
+}
+
+fun NewJourneyViewModel.setStartAudioUrl(audioUrl: String) {
+    newJourneyLiveDate.value = newJourneyLiveDate.value!!.copy(startAudioUrl = audioUrl)
+}
+
+fun NewJourneyViewModel.setEndAudioUrl(audioUrl: String) {
+    newJourneyLiveDate.value = newJourneyLiveDate.value!!.copy(endAudioUrl = audioUrl)
 }
 
 fun NewJourneyViewModel.setSearchWord(placeName: String) {
@@ -89,7 +101,7 @@ fun NewJourneyViewModel.postJourney(charge: Long, vehicle: String) {
                     null
                 }
                 direction?.let {
-                    val journey = Journey(
+                    val journey = newJourneyLiveDate.value!!.copy(
                         startLatitude = direction.startLatitude,
                         startLongitude = direction.startLongitude,
                         startAddress = startPlace.address,
@@ -102,7 +114,6 @@ fun NewJourneyViewModel.postJourney(charge: Long, vehicle: String) {
                         swBoundLongitude = direction.bounds.southwest.lng,
                         charge = charge,
                         vehicle = vehicle,
-                        time = dateTimeLiveData.value!!.millis,
                         picture = startPlace.icon,
                         line = direction.line,
                         duration = direction.duration,
@@ -117,11 +128,11 @@ fun NewJourneyViewModel.postJourney(charge: Long, vehicle: String) {
 }
 
 fun NewJourneyViewModel.setDateTime() {
-    dateTimeLiveData.observeForever {
+    newJourneyLiveDate.observeForever {
         val timeFormatter = DateTimeFormatter.ofPattern("h:mm a", Locale.US)
-        time.value = timeFormatter.format(it)
+        time.value = timeFormatter.format(it.getDateTime())
         val dateFormatter = DateTimeFormatter.ofPattern("EEEE dd MMMM, yyyy", Locale.US)
-        date.value = dateFormatter.format(it)
+        date.value = dateFormatter.format(it.getDateTime())
         Timber.i("New time is ${time.value} and New date is ${date.value}")
     }
 }

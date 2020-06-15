@@ -72,8 +72,17 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
                     setupMap()
                 }
             }
+            REQUEST_AUDIO_PERMISSION_CODE -> if (grantResults.isNotEmpty()) {
+                val permissionToRecord = grantResults[0] == PackageManager.PERMISSION_GRANTED
+                if (permissionToRecord) {
+                    toast("Permission granted")
+                    onRequestPermissionsGranted()
+                }
+            }
         }
     }
+
+    open fun onRequestPermissionsGranted() {}
 
     open fun getLayout() = R.layout.fragment_map
 

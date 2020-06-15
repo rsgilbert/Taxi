@@ -6,7 +6,7 @@ apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.lokech.taxi"
         minSdkVersion 19
@@ -28,6 +28,7 @@ android {
     androidExtensions {
         experimental = true
     }
+
     compileOptions {
         // Flag to enable support for the new language APIs
 //        coreLibraryDesugaringEnabled true

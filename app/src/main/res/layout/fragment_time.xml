@@ -23,8 +23,9 @@
             android:id="@+id/time_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/spacing_normal"
             android:gravity="center_vertical"
-            android:padding="@dimen/spacing_normal"
+
             app:addClickAnimation="@{true}">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -68,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:padding="@dimen/spacing_normal"
+            android:paddingVertical="@dimen/spacing_normal"
             app:addClickAnimation="@{true}">
 
             <androidx.appcompat.widget.AppCompatImageView

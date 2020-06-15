@@ -35,7 +35,6 @@ class InfoFragment : Fragment() {
             }
         }
 
-
         return binding.root
 
     }

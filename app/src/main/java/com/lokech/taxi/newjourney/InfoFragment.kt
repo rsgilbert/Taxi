@@ -28,11 +28,9 @@ class InfoFragment : Fragment() {
             postButton.setOnClickListener {
                 val vehicle = vehicle.text.toString()
                 val charge = 0L
-                val time = 0L
                 newJourneyViewModel.postJourney(charge = charge, vehicle = vehicle)
             }
         }
-
 
         return binding.root
 

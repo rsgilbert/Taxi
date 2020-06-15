@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/time_title"
-            android:text="@{String.valueOf(journeyViewModel.journey.time)}"
+            android:text="@{String.valueOf(journeyViewModel.journey.dateTimeMillis)}"
             android:textColor="@android:color/black"
             android:textSize="@dimen/size_normal"
             tools:text="Monday 8:00pm" />

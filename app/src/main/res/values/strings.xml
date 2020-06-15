@@ -17,5 +17,6 @@
     <string name="tab_time_text">Time</string>
     <string name="time_text">Time</string>
     <string name="date_text">Date</string>
+    <string name="play_text">Play</string>
 
 </resources>

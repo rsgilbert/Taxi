@@ -57,7 +57,7 @@ class TimeFragment : Fragment(), TimeListener, DateListener {
 
 
 fun TimeFragment.showMyTimePickerDialog() {
-    newJourneyViewModel.dateTimeLiveData.value?.let { localDateTime ->
+    newJourneyViewModel.newJourneyLiveDate.value!!.getDateTime().let { localDateTime ->
         val timePickerDialog = MyTimePickerFragment().apply {
             arguments = Bundle().apply {
                 putInt("hour", localDateTime.hour)
@@ -69,7 +69,7 @@ fun TimeFragment.showMyTimePickerDialog() {
 }
 
 fun TimeFragment.showMyDatePickerDialog() {
-    newJourneyViewModel.dateTimeLiveData.value?.let { localDateTime ->
+    newJourneyViewModel.newJourneyLiveDate.value!!.getDateTime().let { localDateTime ->
         val datePickerDialog = MyDatePickerFragment().apply {
             arguments = Bundle().apply {
                 putInt("year", localDateTime.year)

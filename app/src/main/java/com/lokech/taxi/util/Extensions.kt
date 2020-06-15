@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.lokech.taxi.R
 import com.lokech.taxi.REQUEST_AUDIO_PERMISSION_CODE
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 
@@ -27,6 +28,9 @@ val Context.googleMapsKey: String
 
 val LocalDateTime.millis: Long
     get() = atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+fun Long.toLocalDateTime(): LocalDateTime =
+    LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
 
 
 val Fragment.writeToStoragePermission: Int
