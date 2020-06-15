@@ -3,6 +3,7 @@ package com.lokech.taxi.util
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -11,9 +12,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.lokech.taxi.R
 import com.lokech.taxi.REQUEST_AUDIO_PERMISSION_CODE
+import org.jetbrains.anko.support.v4.toast
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
+import timber.log.Timber
+import java.io.IOException
 
 val Fragment.supportActionBar: ActionBar?
     get() =
@@ -50,4 +54,22 @@ fun Fragment.requestRecordingPermissions() {
         arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE),
         REQUEST_AUDIO_PERMISSION_CODE
     )
+}
+
+
+fun Fragment.playAudio(audioUrl: String) {
+    MediaPlayer().apply {
+        try {
+            toast("Audio path is $audioUrl")
+            Timber.i("Audio path is $audioUrl")
+            setDataSource(audioUrl)
+            prepareAsync()
+            setOnPreparedListener {
+                it.start()
+            }
+        } catch (e: IOException) {
+            toast("No audio was recorded")
+            e.printStackTrace()
+        }
+    }
 }

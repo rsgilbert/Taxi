@@ -150,7 +150,7 @@ fun NewJourneyMapFragment.startRecording() {
                 prepare()
                 start()
             } catch (e: IOException) {
-                longToast("No audio file set")
+                longToast("No audio present")
                 e.printStackTrace()
             }
         }
@@ -198,11 +198,11 @@ val NewJourneyMapFragment.recordListener: OnRecordListener
             try {
                 val audioStream = File(recordFilePath).inputStream()
                 uploadAudioFile(audioStream) {
-                    longToast("Link is $it")
+                    toast("Audio recorded")
                     setAudioUrl(it)
                 }
             } catch (e: IOException) {
-                toast("Failed to find file")
+                toast("Failed to find audio")
                 e.printStackTrace()
             }
         }

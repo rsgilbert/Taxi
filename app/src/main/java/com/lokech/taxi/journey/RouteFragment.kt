@@ -1,10 +1,13 @@
 package com.lokech.taxi.journey
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lokech.taxi.*
+import com.lokech.taxi.util.playAudio
 
 class RouteFragment : MapFragment() {
     val journeyViewModel: JourneyViewModel by viewModels(
@@ -17,6 +20,20 @@ class RouteFragment : MapFragment() {
         setRoute()
     }
 
+    override fun getLayout(): Int = R.layout.fragment_route
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val fabStartAudio: FloatingActionButton = view.findViewById(R.id.fab_start_audio)
+        val fabEndAudio: FloatingActionButton = view.findViewById(R.id.fab_end_audio)
+        fabStartAudio.setOnClickListener {
+            playAudio(journeyViewModel.journey.value!!.startAudioUrl)
+        }
+
+        fabEndAudio.setOnClickListener {
+            playAudio(journeyViewModel.journey.value!!.endAudioUrl)
+        }
+    }
 }
 
 fun RouteFragment.setRoute() {
@@ -39,5 +56,4 @@ fun RouteFragment.setRoute() {
 
 val RouteFragment.journeyId: String
     get() = JourneyFragmentArgs.fromBundle(requireParentFragment().arguments!!).journeyId
-
 
