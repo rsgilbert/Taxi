@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.toObjects
 import com.lokech.taxi.data.Journey
-import com.lokech.taxi.util.journeyCollection
+import com.lokech.taxi.util.descendingJourneyListQuery
 
 class JourneysViewModel : ViewModel() {
 
@@ -17,7 +17,7 @@ class JourneysViewModel : ViewModel() {
 }
 
 fun JourneysViewModel.setJourneys() {
-    journeyCollection.addSnapshotListener { snapshot, _ ->
+    descendingJourneyListQuery.addSnapshotListener { snapshot, _ ->
         journeys.value = snapshot?.toObjects()
     }
 }

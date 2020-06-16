@@ -1,7 +1,9 @@
 package com.lokech.taxi.newjourney
 
+import android.view.View
 import androidx.lifecycle.observe
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lokech.taxi.R
 import com.lokech.taxi.addRedMarker
 import com.lokech.taxi.clearMarkers
@@ -38,9 +40,18 @@ class EndFragment : NewJourneyMapFragment() {
         hideSearchBar()
     }
 
-
-    // Return EndFragment's searchbar res id in activity main
+    // Return EndFragment's searchBar res id in activity main
     override fun getSearchBarResourceId(): Int = R.id.end_search_bar
+
+    override fun observeAudioUrl(fab: FloatingActionButton) {
+        newJourneyViewModel.newJourneyLiveDate.observe(this) {
+            if (it.endAudioUrl.isNotBlank()) {
+                fab.visibility = View.VISIBLE
+                hideProgressBar()
+            }
+        }
+    }
+
 }
 
 

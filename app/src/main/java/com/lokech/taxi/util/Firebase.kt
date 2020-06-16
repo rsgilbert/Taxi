@@ -2,6 +2,7 @@ package com.lokech.taxi.util
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -23,6 +24,8 @@ val db: FirebaseFirestore = Firebase.firestore
 val storage: FirebaseStorage = Firebase.storage
 
 val journeyCollection: CollectionReference = db.collection("journeys")
+
+val descendingJourneyListQuery: Query = journeyCollection.orderBy("id", Query.Direction.DESCENDING)
 
 val searchCollection: CollectionReference = db.collection("searches")
 

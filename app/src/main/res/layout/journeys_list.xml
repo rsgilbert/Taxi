@@ -17,18 +17,6 @@
         android:layout_height="match_parent">
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_new_journey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/spacing_normal"
-            android:src="@drawable/ic_add_white"
-            app:backgroundTint="@color/colorAccent"
-            app:tint="@android:color/white" />
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/journeys"
             android:layout_width="match_parent"
@@ -40,5 +28,15 @@
             app:journeysList="@{journeysViewModel.journeys }"
             tools:listitem="@layout/journeys_item" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_new_journey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/spacing_normal"
+            android:src="@drawable/ic_add_white"
+            app:backgroundTint="@color/darkGreen"
+            app:tint="@android:color/white" />
     </RelativeLayout>
 </layout>

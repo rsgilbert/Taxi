@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal"
-                android:src="@drawable/ic_time_blue" />
+                android:src="@drawable/ic_time_green" />
 
 
             <TextView
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:padding="@dimen/spacing_normal"
-                android:src="@drawable/ic_edit_blue" />
+                android:src="@drawable/ic_edit_green" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal"
-                android:src="@drawable/ic_date_blue" />
+                android:src="@drawable/ic_date_green" />
 
 
             <TextView
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:padding="@dimen/spacing_normal"
-                android:src="@drawable/ic_edit_blue" />
+                android:src="@drawable/ic_edit_green" />
         </RelativeLayout>
 
     </LinearLayout>

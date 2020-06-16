@@ -6,4 +6,10 @@
     <color name="colorOnSecondary">@android:color/white</color>
     <color name="colorGreen">#72A074</color>
     <color name="colorRed">#F98E8E</color>
+    <color name="darkGreen">#238A24</color>
+
+
+    <color name="legacyGreen">#72A074</color>
+    <color name="legacyDarkGreen">#354A36</color>
+    <color name="legacyRed">#72A074</color>
 </resources>

@@ -7,7 +7,8 @@ import androidx.lifecycle.observe
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lokech.taxi.*
-import com.lokech.taxi.util.playAudio
+import com.lokech.taxi.dialogs.AudioPlayerDialog
+import org.jetbrains.anko.support.v4.toast
 
 class RouteFragment : MapFragment() {
     val journeyViewModel: JourneyViewModel by viewModels(
@@ -27,11 +28,11 @@ class RouteFragment : MapFragment() {
         val fabStartAudio: FloatingActionButton = view.findViewById(R.id.fab_start_audio)
         val fabEndAudio: FloatingActionButton = view.findViewById(R.id.fab_end_audio)
         fabStartAudio.setOnClickListener {
-            playAudio(journeyViewModel.journey.value!!.startAudioUrl)
+            showAudioPlayerDialog(journeyViewModel.journey.value!!.startAudioUrl)
         }
 
         fabEndAudio.setOnClickListener {
-            playAudio(journeyViewModel.journey.value!!.endAudioUrl)
+            showAudioPlayerDialog(journeyViewModel.journey.value!!.endAudioUrl)
         }
     }
 }
@@ -53,6 +54,16 @@ fun RouteFragment.setRoute() {
     }
 }
 
+fun RouteFragment.showAudioPlayerDialog(audioUrl: String) {
+    if (audioUrl.isNotBlank()) {
+        val audioPlayerDialog = AudioPlayerDialog().apply {
+            arguments = Bundle().apply {
+                putString("audioUrl", audioUrl)
+            }
+        }
+        audioPlayerDialog.show(childFragmentManager, "audioDialog")
+    } else toast("Audio was not recorded")
+}
 
 val RouteFragment.journeyId: String
     get() = JourneyFragmentArgs.fromBundle(requireParentFragment().arguments!!).journeyId

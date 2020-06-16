@@ -7,21 +7,24 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
+import android.widget.ProgressBar
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.devlomi.record_view.OnRecordListener
 import com.devlomi.record_view.RecordButton
 import com.devlomi.record_view.RecordView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.lokech.taxi.MapFragment
 import com.lokech.taxi.R
+import com.lokech.taxi.dialogs.AudioPlayerDialog
 import com.lokech.taxi.moveCameraToCurrentLocation
 import com.lokech.taxi.util.hasRecordingPermissions
 import com.lokech.taxi.util.requestRecordingPermissions
 import com.lokech.taxi.util.uploadAudioFile
 import com.mancj.materialsearchbar.MaterialSearchBar
+import kotlinx.android.synthetic.main.fragment_new_journey_map.view.*
 import org.jetbrains.anko.support.v4.longToast
 import org.jetbrains.anko.support.v4.toast
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
 
@@ -35,6 +38,7 @@ abstract class NewJourneyMapFragment : MapFragment() {
     lateinit var player: MediaPlayer
     private lateinit var recordView: RecordView
     lateinit var recordFilePath: String
+    lateinit var progressBar: ProgressBar
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -47,6 +51,7 @@ abstract class NewJourneyMapFragment : MapFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressBar = view.progressBar
         recordView = view.findViewById(R.id.record_view)
         val recordButton: RecordButton = view.findViewById(R.id.record_button)
         recordButton.setRecordView(recordView)
@@ -56,6 +61,11 @@ abstract class NewJourneyMapFragment : MapFragment() {
             requestRecordingPermissions()
         }
         setRecordFilePath()
+        val fabPlay: FloatingActionButton = view.fab_play
+        observeAudioUrl(fabPlay)
+        fabPlay.setOnClickListener {
+            showAudioPlayerDialog()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -65,7 +75,6 @@ abstract class NewJourneyMapFragment : MapFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_search -> openSearchBar()
-            R.id.menu_play -> playRecording()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -81,6 +90,7 @@ abstract class NewJourneyMapFragment : MapFragment() {
     abstract fun getAudioUrl(): String
     abstract val suggestionClickListener: PlaceSuggestionsAdapter.OnClickListener
     abstract fun getSearchBarResourceId(): Int
+    abstract fun observeAudioUrl(fab: FloatingActionButton)
 
 }
 
@@ -169,18 +179,14 @@ fun NewJourneyMapFragment.setRecordFilePath() {
         "${requireActivity().cacheDir!!.absolutePath}/audiorecord.3gp"
 }
 
-fun NewJourneyMapFragment.playRecording() {
-    player = MediaPlayer().apply {
-        try {
-            Timber.i("Audio path is ${getAudioUrl()}")
-            setDataSource(getAudioUrl())
-            prepare()
-            start()
-        } catch (e: IOException) {
-            toast("No audio recorded")
-            e.printStackTrace()
+
+fun NewJourneyMapFragment.showAudioPlayerDialog() {
+    val audioPlayerDialog = AudioPlayerDialog().apply {
+        arguments = Bundle().apply {
+            putString("audioUrl", getAudioUrl())
         }
     }
+    audioPlayerDialog.show(childFragmentManager, "audioDialog")
 }
 
 val NewJourneyMapFragment.recordListener: OnRecordListener
@@ -197,8 +203,8 @@ val NewJourneyMapFragment.recordListener: OnRecordListener
             stopRecording()
             try {
                 val audioStream = File(recordFilePath).inputStream()
+                showProgressBar()
                 uploadAudioFile(audioStream) {
-                    toast("Audio recorded")
                     setAudioUrl(it)
                 }
             } catch (e: IOException) {
@@ -209,3 +215,11 @@ val NewJourneyMapFragment.recordListener: OnRecordListener
 
         override fun onLessThanSecond() {}
     }
+
+fun NewJourneyMapFragment.showProgressBar() {
+    progressBar.visibility = View.VISIBLE
+}
+
+fun NewJourneyMapFragment.hideProgressBar() {
+    progressBar.visibility = View.GONE
+}
