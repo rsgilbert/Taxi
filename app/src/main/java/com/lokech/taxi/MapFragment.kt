@@ -56,6 +56,7 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
             } else {
                 requestLocationPermissions()
             }
+            whenMapIsReady()
         }
     }
 
@@ -87,6 +88,10 @@ open class MapFragment : Fragment(), OnMapReadyCallback {
     open fun getLayout() = R.layout.fragment_map
 
     open fun moreOnCreateView(view: View) {}
+
+    open fun whenMapIsReady() {
+
+    }
 }
 
 fun MapFragment.initializePlaces() {
@@ -132,7 +137,9 @@ fun MapFragment.addGreenMarker(latLng: LatLng, snippet: String) {
                 .title(title)
                 .snippet(snippet)
         )
+        toast("applied")
     }
+    if (getMap() == null) toast("Map is null")
 }
 
 fun MapFragment.addRedMarker(latLng: LatLng, snippet: String) {

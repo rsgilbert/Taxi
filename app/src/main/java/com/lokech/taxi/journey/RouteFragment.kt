@@ -16,11 +16,10 @@ class RouteFragment : MapFragment() {
         JourneyViewModelFactory(journeyId)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun whenMapIsReady() {
+        super.whenMapIsReady()
         setRoute()
     }
-
     override fun getLayout(): Int = R.layout.fragment_route
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +49,6 @@ fun RouteFragment.setRoute() {
         addGreenMarker(startLatLng, snippet = it.startAddress)
         addRedMarker(endLatLng, snippet = it.endAddress)
         addPolyline(it.line)
-
     }
 }
 

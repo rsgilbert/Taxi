@@ -39,4 +39,9 @@
             android:name="journeyId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/garageFragment"
+        android:name="com.lokech.taxi.garage.GarageFragment"
+        android:label="@string/garage_title"
+        tools:layout="@layout/fragment_garage" />
 </navigation>

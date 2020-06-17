@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = binding.drawerLayout
         appBarConfiguration =
             AppBarConfiguration(
-                setOf(R.id.journeyListFragment, R.id.newJourneyFragment),
+                setOf(R.id.journeyListFragment, R.id.newJourneyFragment, R.id.garageFragment),
                 drawerLayout
             )
         navController = findNavController(R.id.myNavHostFragment)

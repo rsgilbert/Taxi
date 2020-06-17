@@ -18,5 +18,6 @@
     <string name="time_text">Time</string>
     <string name="date_text">Date</string>
     <string name="play_text">Play</string>
+    <string name="garage_title">Garage</string>
 
 </resources>

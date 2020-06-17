@@ -43,10 +43,14 @@ abstract class NewJourneyMapFragment : MapFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
-        moveCameraToCurrentLocation()
         initializeSearchBar()
         observeSuggestions()
         observePlace()
+    }
+
+    override fun whenMapIsReady() {
+        super.whenMapIsReady()
+        moveCameraToCurrentLocation()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

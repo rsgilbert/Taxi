@@ -5,5 +5,8 @@
         android:id="@+id/journeyListFragment"
         android:title="@string/journeys_title" />
 
+    <item
+        android:id="@+id/garageFragment"
+        android:title="@string/garage_title" />
 
 </menu>
